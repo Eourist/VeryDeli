@@ -1,0 +1,231 @@
+<style>
+body{
+	font-family: 'Montserrat', sans-serif;
+}
+/* NAVBAR */
+	.e-navbar{
+		padding: 0px !important;
+		height: 70px;
+		background-color: #313131;
+		position: fixed;
+		width: 100%;
+		z-index: 1;
+
+		font-family: 'Montserrat', sans-serif;
+	}
+	.e-nav-logo{
+		/*margin: 15px;*/
+	}
+	.e-nav-menu{
+		height: 100% !important;
+	}
+	.e-nav-link{
+		height: 100%;
+		display:flex;
+		justify-content:center;
+		align-items:center;
+		color: #a4a4a4;
+		font-weight: bold;
+		padding: 8px 12px !important;
+		background-color: #313131;
+
+		border-width: 0px 0px 4px 0px;
+		border-style: solid;
+		border-radius: 0px;
+		border-color: #313131; 
+		transition: .3s;
+	}
+	.e-nav-link:hover{
+		color: #a4a4a4;
+		background-color: #292929;
+		border-bottom-color: #ff8d4f; /*d64000*/
+		transition: .3s;
+	}
+	.e-nav-link:focus{
+		background-color: #242424;
+		border-bottom-color: #ff623b;/*#d64000;*/
+		box-shadow: none !important;
+		outline: none;
+	}
+	.e-nav-link-focus{
+		/*igual que el .e-nav-link:focus pero para el elemento form, que no tiene :focus*/
+		background-color: #242424 !important;
+		border-bottom-color: #ff623b;
+		box-shadow: none !important;
+		outline: none;
+	}
+	.e-nav-form{
+		margin: 0px;
+		padding: 0px;
+	}
+	.e-navbar-toggler{
+		border: 2px solid #ff623b !important;
+	}
+	.e-navbar-toggler:focus{
+		border-color: #ff623b !important;
+		outline: none !important;
+	}
+/* FIN NAVBAR*/
+
+/* FORMULARIOS */
+	.e-input{
+		border-color: #ff8d4f;
+		background-color: white;
+	}
+
+	.e-input:focus{
+		box-shadow: none;
+		border-color: #ff8d4f/*#ffb14c;*/
+	}
+
+	.e-input-addon{
+		width: 40px;
+		border-color: #ff8d4f;
+		color: white;
+		background-color: #ff8d4f;
+	}
+/* FIN FORMULARIOS*/
+
+/* MODALES */
+	.e-modal-header{
+		padding: 10px;
+		background-color: #f7510f;
+		color: white;
+
+		border-width: 0px;
+		border-radius: 4px 4px 0px 0px;
+
+		background: rgb(255,169,0);
+		background: linear-gradient(90deg, rgba(255,169,0,.7) 0%, rgba(255,49,0,.7) 100%);
+	}
+
+	.e-modal-close-btn{
+		color: white;
+	}
+/* FIN MODALES */
+
+/* CARDS */
+	.e-card{
+		border-radius: 4px;
+		border-width: 0px;
+		margin-bottom: 15px;
+		/*background-image: url(assets/img/bg3.jpg);
+		background-repeat: no-repeat;
+		background-size: 100%;*/
+	}
+	.e-card-footer{
+		padding: 0px;
+		border-width: 0px;
+
+		background-color: #f2f2f2;
+	}
+	.e-card-header{
+		padding: 10px;
+		padding-bottom: 0px;
+		background-color: #f7510f;
+		color: white;
+
+		border-width: 0px;
+		border-radius: 4px 0px 4px 0px;
+
+		background: rgb(255,169,0);
+		background: linear-gradient(90deg, rgba(255,169,0,.7) 0%, rgba(255,49,0,.7) 100%);
+	}
+	.e-card-body{
+		background: rgb(255,232,222);
+		background: linear-gradient(0deg, rgba(255,232,222,1) 0%, rgba(255,255,255,1) 100%);
+	}
+
+	.e-card-badge{
+		padding: 7px;
+		width: 100px;
+		background-color: #ff8d4f;
+	}
+
+	.e-divider{
+		width: 100%;
+		height: 2px;
+		background-color: #ff8d4f;
+		background: rgb(255,169,0);
+		background: linear-gradient(90deg, rgba(255,169,0,.7) 0%, rgba(255,49,0,.7) 100%);
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+
+	.e-card-btn{
+		height: 38px;
+		padding: 5px 9px 5px 9px;
+		border-radius: 6px;
+		border-width: 3px;
+		background: #ff8d4f;
+		border-color: #ff8d4f;
+		color: white;
+		transition: .3s;
+	}
+	.e-card-btn:hover{
+		background: #ff7c40;
+		border-color: #ff7c40;
+		color: white;
+		transition: .3s;
+	}
+	.e-card-btn:active{
+		box-shadow: none;
+		outline: none;
+		color: #ff8d4f;
+		transition: .3s;
+	}
+	.e-card-btn:focus{
+		background: none;
+		/*background: #ff4d29;*/
+		border-color: #ff8d4f;
+		color: #ff8d4f;
+		transition: .3s;
+
+		box-shadow: none;
+		outline: none;
+	}
+	.e-right-btn{
+		border-radius: 0px;
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+	}
+	.e-left-btn{
+		border-radius: 0px;
+		border-top-left-radius: 6px;
+		border-bottom-left-radius: 6px;
+	}
+
+	.e-card-caret{
+		color: white;
+	}
+	.e-card-caret:hover{
+		color: white;
+	}
+/* FIN CARDS*/
+
+/* TABLAS */
+	.e-table thead tr th{
+		border-top-width: 0px;
+		border-bottom-color: #ff8d4f;
+		border-bottom-width: 2px;
+	}
+	.e-table tbody tr td{
+		border-width: 1px;
+	}
+	.e-table tbody tr th{
+		border-width: 1px;
+	}
+/* FIN TABLAS */
+
+.e-avatar{
+	max-width: 100%;
+	height: auto;
+}
+.e-avatar-btn:focus{
+	box-shadow: 0px 0px 6px 2px rgba(255,141,79,1);
+}
+.e-avatar-btn:active{
+	box-shadow: 0px 0px 6px 2px rgba(255,141,79,1);
+}
+</style>

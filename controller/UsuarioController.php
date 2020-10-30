@@ -1,0 +1,312 @@
+<?php
+class UsuarioController extends ControladorBase{
+    public $conectar;
+		
+    public function __construct() {
+        parent::__construct();
+    }
+
+    public function index(){
+    	echo "USUARIO/INDEX";
+    }
+
+    public function perfil(){
+		$this->view("header", "");
+		$this->view("navbar", "");
+		$this->view("perfilUsuario", "");
+		$this->view("footer", "");
+
+		// $u = new UsuarioModel();
+
+  //   	$data = array(	'nombre' => 1,
+  //   					'apellido' => 2,
+  //   					'email' => 3,
+  //   					'dni' => 1,
+  //   					'contraseña' => 1 );
+		// echo "<pre>";
+		// print_r($u->insert($data));
+    }
+
+    public function cerrarSesion(){
+    	session_start();
+    	session_unset();
+
+    	$_SESSION['alerta'] = "Cerrada la sesión";
+    	$this->redirect('publicacion', 'index');
+    }
+
+    public function registrarse(){ // REEMPLAZAR VALIDACION POR AJAX??
+		session_start();
+    	$usuario = new UsuarioModel();
+
+    	$usuario->setNombre		($_POST['fs_nombre']);
+    	$usuario->setApellido	($_POST['fs_apellido']);
+    	$usuario->setEmail		($_POST['fs_email']);
+    	$usuario->setDNI 		($_POST['fs_dni']);
+    	$usuario->setContraseña	(hash("sha256", $_POST["fs_contraseña"], false));
+    	$usuario->setAvatar     ("av (".rand(1,48).")");
+
+    	if ($usuario->getBy("email", $usuario->getEmail())){
+    		// Error: Ya existe un usuario con ese email
+    		$_SESSION['alerta'] = "Error: Ya existe un usuario con ese email";
+    		$this->redirect("publicacion", "index");
+    	} else if ($usuario->getBy("dni", $usuario->getDNI())){
+    		// Error: Ya existe un usuario con ese DNI
+    		$_SESSION['alerta'] = "Error: Ya existe un usuario con ese DNI";
+    		$this->redirect("publicacion", "index");
+    	} else {
+	    	$alta = $usuario->alta();
+	    	if ($alta){
+		    	$_SESSION['id'] 		= Conectar::$con->insert_id;
+		    	$_SESSION['nombre'] 	= $usuario->getNombre();
+		    	$_SESSION['apellido'] 	= $usuario->getApellido();
+		    	$_SESSION['email'] 		= $usuario->getEmail();
+		    	$_SESSION['dni'] 		= $usuario->getDNI();
+		    	$_SESSION['contraseña'] = $usuario->getContraseña();
+		    	$_SESSION['avatar'] 	= $usuario->getAvatar();
+
+		    	// Registro exitoso
+    			$_SESSION['alerta'] = "Registro exitoso";
+		    	$this->redirect("publicacion", "inicio");
+	    	} else {
+	    		// Error: Falló el registro
+    			$_SESSION['alerta'] = "Error: Falló el registro - ".Conectar::$con->error;
+	    	}
+    	}
+    }
+
+    public function iniciarSesion(){ // REEMPLAZAR VALIDACION POR AJAX??
+    	session_start();
+    	$usuario = new UsuarioModel();
+
+    	$usuario->setEmail		($_POST['fl_email']);
+    	$usuario->setContraseña	(hash("sha256", $_POST["fl_contraseña"], false));
+
+    	if($existente = $usuario->getBy("email", $usuario->getEmail())){
+    		if ($existente[0]->contraseña == $usuario->getContraseña()){
+    			$_SESSION['id'] 		= $existente[0]->id;
+    			$_SESSION['nombre'] 	= $existente[0]->nombre;
+    			$_SESSION['apellido'] 	= $existente[0]->apellido;
+    			$_SESSION['email'] 		= $existente[0]->email;
+    			$_SESSION['dni'] 		= $existente[0]->dni;
+    			$_SESSION['contraseña'] = $existente[0]->contraseña;
+		    	$_SESSION['avatar'] 	= $existente[0]->avatar;
+
+    			// Sesion iniciada correctamente
+    			$_SESSION['alerta'] = "Inicio de sesión exitoso";
+    			$this->redirect("publicacion", "inicio");
+    		} else {
+    			//Error: Contraseña incorrecta
+    			$_SESSION['alerta'] = "Error: Contraseña incorrecta";
+    			$this->redirect("publicacion", "index");
+    		}
+    	} else {
+    		// Error: Email incorrecto
+    		$_SESSION['alerta'] = "Error: Email incorrecto";
+    		$this->redirect("publicacion", "index");
+    	}
+    }
+
+    public function cambiarAvatar(){
+    	session_start();
+    	$usuario = new UsuarioModel();
+
+    	$usuario->setId 		($_SESSION['id']);
+    	$usuario->setNombre		($_SESSION['nombre']);
+    	$usuario->setApellido	($_SESSION['apellido']);
+    	$usuario->setEmail		($_SESSION['email']);
+    	$usuario->setDNI 		($_SESSION['dni']);
+    	$usuario->setContraseña	($_SESSION["contraseña"]);
+
+    	$usuario->setAvatar($_POST['f_avatar']);
+
+    	$modificacion = $usuario->modificacion();
+    	if ($modificacion){
+    		$_SESSION['avatar'] = $usuario->getAvatar();
+	    	// Cambio de avatar exitoso
+	    	$_SESSION['alerta'] = "Cambio de avatar exitoso";
+	    	$this->redirect("usuario", "perfil");
+    	} else {
+    		echo "ERROR: ".Conectar::$con->error;
+    	}
+    }
+
+    public function crearVehiculo(){
+		session_start();
+    	$vehiculo = new VehiculoModel();
+
+    	$vehiculo->setIdUsuario	($_SESSION['id']);
+    	$vehiculo->setPatente	($_POST['fv_patente']);
+    	$vehiculo->setTipo		($_POST['fv_tipo']);
+    	$vehiculo->setMarca		($_POST['fv_marca']);
+    	$vehiculo->setModelo	($_POST['fv_modelo']);
+
+    	// EJEMPLO DE ALTA USANDO EntidadBase->insert
+    	$data = array(
+    		'id_usuario' 	=> $_SESSION['id'], 
+    		'patente' 		=> $_POST['fv_patente'], 
+    		'tipo' 			=> $_POST['fv_tipo'], 
+    		'marca' 		=> $_POST['fv_marca'], 
+    		'modelo' 		=> $_POST['fv_modelo'], 
+    	);
+
+		if (sizeof($vehiculo->getBy("id_usuario", $_SESSION['id'])) > 4){
+	    	// Error: Falló el alta porque el usuario ya tiene demasiados vehiculos
+    		$_SESSION['alerta'] = "Error: Falló el alta porque el usuario ya tiene demasiados vehiculos";
+    		$this->redirect('usuario', 'perfil');
+    	} else if ($vehiculo->getBy("patente", $vehiculo->getPatente())){
+    		// Error: Ya existe un vehiculo con esa patente
+    		$_SESSION['alerta'] = "Error: Ya existe un vehiculo con esa patente";
+    		$this->redirect('usuario', 'perfil');
+    	} else {
+    		//$alta = $vehiculo->alta();
+    		$alta = $vehiculo->insert($data); // EJEMPLO DE ALTA USANDO EntidadBase->insert
+    		if ($alta){
+    			// Alta exitosa
+    			$_SESSION['alerta'] = "Alta de vehiculo exitosa";
+    			$this->redirect('usuario', 'perfil');
+    		} else {
+	    		// Error: Falló el alta
+    			$_SESSION['alerta'] = "Error: Falló el alta de vehiculo - ".Conectar::$con->error;
+    			$this->redirect('usuario', 'perfil');
+	    	}
+    	}
+    }
+
+    public function eliminarVehiculo(){
+    	session_start();
+    	$vehiculo = new VehiculoModel();
+
+    	$id_vehiculo = $_POST['id_vehiculo'];
+    	$existente = $vehiculo->getById($id_vehiculo);
+
+    	if ($existente->id_usuario == $_SESSION['id']){
+    		$baja = $vehiculo->deleteById($id_vehiculo);
+
+    		if ($baja){
+	    		// Eliminación exitosa
+    			$_SESSION['alerta'] = "Eliminación de vehiculo exitosa";
+    			$this->redirect('usuario', 'perfil');
+    		} else {
+		    	// Error: Falló la eliminación
+    			$_SESSION['alerta'] = "Error: Falló la eliminación de vehiculo - ".Conectar::$con->error;
+    			$this->redirect('usuario', 'perfil');
+    		}
+    	} else {
+	    	// Error: Falló la eliminación del vehiculo porque no pertenece al usuario logueado
+    		$_SESSION['alerta'] = "Error: Falló la eliminación del vehiculo porque no pertenece al usuario logueado";
+    		$this->redirect('usuario', 'perfil');
+    	}
+    }
+
+    public function pruebaAjax(){
+    	$data = $_POST['data'];
+
+		echo json_encode("Datos: ".$data);
+    }
+
+		//Listar todos los Usuarios	
+		/*public function index(){
+			
+			//Creamos el objeto usuario
+			$usuario=new Usuario();
+
+			//Conseguimos todos los usuarios
+			$allusers=$usuario->getAll();
+
+		   //Cargamos la vista index y le pasamos valores
+			$this->view("index",array(
+				"allusers"=>$allusers,
+				"UnaVariableDeLaVista"    =>"Valor de la Vista"
+			));
+		}
+
+		//Muestra el formulario de inserción
+		public function insertar(){
+        
+			//Conseguimos todos los usuarios
+			$provincia=new Provincia();
+			$allProvincias= $provincia->getAll();
+			
+			//Cargamos la vista para mostrar formulario de insert
+			$this->view("insertar",array(
+				"allProvincias"=>$allProvincias
+			));
+		
+		}
+
+		//Procesa los datos del formulario de inserción
+		public function crear(){
+			if(isset($_POST["nombre"])){
+            
+				//Creamos un usuario
+				$usuario=new Usuario();
+				$usuario->setNombre($_POST["nombre"]);
+				$usuario->setApellido($_POST["apellido"]);
+				$usuario->setEmail($_POST["email"]);
+				
+				//al constructor de provincia le paso el id
+				$provincia = new Provincia();
+				$provincia->setId($_POST["provincia"]);
+				$usuario->setProvincia($provincia);
+				
+				$usuario->setPassword($_POST["password"]);
+				$save=$usuario->save();
+			}
+			$this->redirect("Usuario", "index");
+		}
+
+		//Procesa el borrado de unUsuario
+		public function borrar(){
+			if(isset($_GET["id"])){ 
+				$id=(int)$_GET["id"];
+				
+				$usuario=new Usuario();
+				$usuario->deleteById($id); 
+			}
+			$this->redirect();
+		}
+   
+     
+		//Muestra el formulario de Actualizacion
+		public function editar(){
+			if(isset($_GET["id"])){ 
+				$id=(int)$_GET["id"];
+				//Conseguimos todos los usuarios
+				$provincia=new Provincia();
+				$allProvincias= $provincia->getAll();
+				//traemos todos los datos del usuario para mostrarlos en el formulario
+				$usuario = new Usuario();
+				$usuario = $usuario->getById($id);
+				//Cargamos la vista para mostrar formulario de insert
+				$this->view("editar",array(
+					"allProvincias"=>$allProvincias,
+					"usuario"=>$usuario
+				));
+			}
+		}	 
+		//Procesa los datos del formulario de edición
+		public function actualizar(){
+			if(isset($_POST["nombre"])){
+            
+				//Creamos un usuario
+				$usuario=new Usuario();
+				$usuario->setId($_POST["id"]);
+				$usuario->setNombre($_POST["nombre"]);
+				$usuario->setApellido($_POST["apellido"]);
+				$usuario->setEmail($_POST["email"]);
+				
+				//al constructor de provincia le paso el id
+				$provincia = new Provincia();
+				$provincia->setId($_POST["provincia"]);
+				$usuario->setProvincia($provincia);
+
+				$save=$usuario->save();
+			}
+			$this->redirect("Usuario", "index");
+		}*/
+
+    
+
+}
+?>
