@@ -54,6 +54,7 @@
 		</div>
 		<div class="row">
 			<div class="col-12">
+				<p style="float: left;"><span class="badge badge-dark e-card-badge">Usuario</span> DiegoCapo</p>
 				<button type="button" class="btn btn-sm float-right e-card-btn e-right-btn"><i class="fas fa-handshake"></i> Postularse</button>
 				<button type="button" class="btn btn-sm float-right e-card-btn e-left-btn"><i class="fas fa-comment-alt"></i> Comentarios</button>
 			</div>

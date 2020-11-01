@@ -8,6 +8,7 @@ if (!isset($_SESSION['id'])) {
 	// Renovar sesion
     setcookie(session_name(),session_id(),time()+DURACION_SESION);
 } ?>
+
 <nav class="navbar navbar-expand-lg navbar-dark e-navbar">
 	<div class="container h-100" style="padding: 0px 15px 0px 15px">
 		<a class="navbar-brand e-nav-logo" href="<?php echo $helper->url('publicacion', 'inicio'); ?>"><img src="assets/img/logo2.png" alt=""></a>
@@ -25,7 +26,7 @@ if (!isset($_SESSION['id'])) {
 					</form>
 				</li>
 				<!-- <li class="nav-item h-100">
-					<a class="nav-link e-nav-link" href="#">Busqueda avanzada</a>
+					<a class="nav-link e-nav-link" href="#"></a>
 				</li> -->
 				<li class="nav-item dropdown h-100">
 					<a class="nav-link dropdown-toggle e-nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,7 +38,7 @@ if (!isset($_SESSION['id'])) {
 						 ?>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="<?php echo $helper->url('usuario', 'perfil'); ?>">Ir a mi perfil</a>
+						<a class="dropdown-item" href="<?php echo $helper->url('usuario', 'miPerfil'); ?>">Ir a mi perfil</a>
 						<!-- <div class="dropdown-divider"></div> -->
 						<a class="dropdown-item" href="<?php echo $helper->url('usuario', 'cerrarSesion'); ?>">Cerrar sesión</a>
 					</div>
@@ -46,5 +47,9 @@ if (!isset($_SESSION['id'])) {
 		</div>
 	</div>
 </nav>
-<div class="container" style="background-color: #505050; height: 3000px">
+<!-- <div class="e-alert text-center">
+	<p>Sesión iniciada correctamente</p>
+</div> -->
+
+<div class="container" id="e-main-container" style="background-color: #505050; min-height: 100vh; padding-bottom: 10px;">
 	<div style="width: 100%; height: 85px;"></div>

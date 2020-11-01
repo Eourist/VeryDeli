@@ -4,7 +4,6 @@ class UsuarioModel extends EntidadBase{
     private $nombre;
     private $apellido;
     private $email;
-    private $telefono;
     private $dni;
     private $contraseña;
     private $avatar;
@@ -45,14 +44,6 @@ class UsuarioModel extends EntidadBase{
 
     public function setEmail($email) {
         $this->email = $email;
-    }
-
-    public function getTelefono() {
-        return $this->telefono;
-    }
-
-    public function setTelefono($telefono) {
-        $this->telefono = $telefono;
     }
 
     public function getDNI() {
@@ -103,12 +94,11 @@ class UsuarioModel extends EntidadBase{
     }
 
     public function alta(){
-        $query = "INSERT INTO vd_usuarios (id, nombre, apellido, email, telefono, dni, contraseña, avatar) VALUES (
+        $query = "INSERT INTO vd_usuarios (id, nombre, apellido, email, dni, contraseña, avatar) VALUES (
             NULL,
             '".$this->nombre."', 
             '".$this->apellido."', 
             '".$this->email."', 
-            '".$this->telefono."',
             '".$this->dni."', 
             '".$this->contraseña."', 
             '".$this->avatar."'
@@ -120,8 +110,7 @@ class UsuarioModel extends EntidadBase{
         $query= "UPDATE vd_usuarios SET 
             nombre      = '$this->nombre', 
             apellido    = '$this->apellido', 
-            email       = '$this->email', 
-            telefono    = '$this->telefono', 
+            email       = '$this->email',
             dni         = '$this->dni', 
             contraseña  = '$this->contraseña', 
             avatar      = '$this->avatar' 

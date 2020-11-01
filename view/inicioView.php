@@ -60,6 +60,10 @@
 		}
 </style>
 <body class="img-responsive">
+<!-- <div class="e-alert text-center" style="margin-top: -15px !important">
+	<p>Sesión cerrada por inactividad</p>
+</div> -->
+
 	<div class="container e-container-center">
 		<!-- MENU PRINCIPAL -->
 		<div class="e-central-panel animate__animated" id="main-menu">
@@ -227,6 +231,8 @@
 	<script>
 		// animate__backOutLeft animate__backInRight
 		jQuery(document).ready(function($) {
+			<?php if (isset($_SESSION['alerta'])) { echo "alert('".$_SESSION['alerta']."')"; } ?>
+			
 			$('#btn-signup').click(function(event) {
 				$('#main-menu').fadeOut('fast', function(){
 					$('#login').fadeIn('fast');

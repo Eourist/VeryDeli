@@ -50,4 +50,44 @@ jQuery(document).ready(function($) {
 		let nro = id.substring(11, id.length);
 		$('#f_avatar').val("av ("+nro+")");
 	});
+
+	$('.e-input-medido').keyup(function(event) {
+		// concatenar la medida
+	});
+
+	$('#fdd_provincia').change(function(event) {
+		let id_provincia = $(this).val();
+
+		$.ajax({
+			url: 'index.php?controller=publicacion&action=getCiudades',
+			type: 'POST',
+			data: {id_provincia: id_provincia},
+		})
+		.done(function(data) {
+			data = jQuery.parseJSON(data);
+			$('#fdd_ciudad').html('');
+			
+			data.forEach(function(item, index){
+				$('#fdd_ciudad').append('<option class="e-option" value="'+item.id+'">'+item.nombre+'</option>');
+			});
+		});
+	});
+
+	$('#fdo_provincia').change(function(event) {
+		let id_provincia = $(this).val();
+
+		$.ajax({
+			url: 'index.php?controller=publicacion&action=getCiudades',
+			type: 'POST',
+			data: {id_provincia: id_provincia},
+		})
+		.done(function(data) {
+			data = jQuery.parseJSON(data);
+			$('#fdo_ciudad').html('');
+
+			data.forEach(function(item, index){
+				$('#fdo_ciudad').append('<option class="e-option" value="'+item.id+'">'+item.nombre+'</option>');
+			});
+		});
+	});
 });

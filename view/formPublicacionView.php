@@ -4,62 +4,335 @@
 	</div>
 	<div class="card-body e-card-body" style="padding: 10px;">
 		<form action="<?php echo $helper->url("publicacion","crear"); ?>" method="post">
-			<div class="form-row">
-				<div class="col-12 col-md-6">
-					<div class="form-group">
-						<label for="f-input-1">Input 1 - Email <i class="fas fa-question-circle" data-toggle="tooltip" title="Extra info about the input field"></i></label>
-						<input type="text" class="form-control e-input" id="nombre" name="nombre" aria-describedby="f-desc-1" placeholder="Enter input"><!-- 
-						<small id="f-desc-1" class="form-text text-muted">Here I can give extra info about the input field.</small> -->
+			<div class="e-form-panel"> <!-- Información de la solicitud de envío y del paquete -->
+				<p>Información de la solicitud de envío y del paquete</p>
+				<div class="form-row">
+					<div class="col-12">
+						<div class="form-group">
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text e-input-addon"><i class="fas fa-font"></i></span>
+									</div>
+									<input type="text" id="fp_titulo" name="fp_titulo" class="form-control e-input" placeholder="Titulo">
+								</div>							
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="col-12 col-md-6">
-					<div class="form-group">
-						<label for="f-input-2">Input 2 - Password</label>
-						<input type="password" class="form-control e-input" id="contraseña" name="contraseña"  placeholder="Enter your password">
+				<div class="form-row">
+					<div class="col-12 col-md-6">
+						<div class="form-group">	
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-text">Fecha</div>
+								</div>
+								<input class="form-control e-input" id="fp_fecha_salida" name="fp_fecha_salida"  type="date" value="" placeholder="Fecha de salida">
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="form-group">	
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-text">Hora</div>
+								</div>
+								<input class="form-control e-input" id="fp_hora_salida" name="fp_hora_salida" type="time" value="" placeholder="Hora de salida">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-text">Vehiculo</div>
+								</div>
+								<select id="fp_tipo_vehiculo" name="fp_tipo_vehiculo" class="form-control e-input e-select decorated">
+									<option class="e-option" value="auto">Auto</option>
+									<option class="e-option" value="moto">Moto</option>
+									<option class="e-option" value="camioneta">Camioneta</option>
+									<option class="e-option" value="camion">Camión</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-weight-hanging"></i></div>
+									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-weight-hanging"></i> Peso</div>
+								</div>
+								<input class="form-control e-input e-input-medido" data-medida="Kg" id="fp_medida_peso" name="fp_medida_peso"  type="number" value="" placeholder="0 Kg">
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-ruler-vertical"></i></div>
+									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-ruler-vertical"></i> Alto</div>
+								</div>
+								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_alto" name="fp_medida_alto"  type="number" value="" placeholder="0 cm">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-ruler-horizontal"></i></div>
+									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-ruler-horizontal"></i> Largo</div>
+								</div>
+								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_largo" name="fp_medida_largo"  type="number" value="" placeholder="0 cm">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-ruler"></i></div>
+									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-ruler"></i> Ancho</div>
+								</div>
+								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_ancho" name="fp_medida_ancho"  type="number" value="" placeholder="0 cm">
+							</div>
+						</div>
+					</div>
+					</div>
+					<!-- <div class="col-4" style="padding-right: 0px">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-ruler-vertical"></i></div>
+									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-ruler-vertical"></i> Alto</div>
+								</div>
+								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_alto" name="fp_medida_alto"  type="number" value="" placeholder="0 cm">
+							</div>
+						</div>
+					</div>
+					<div class="col-4" style="padding-right: 0px; padding-left: 0px">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-ruler-horizontal"></i></div>
+									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-ruler-horizontal"></i> Largo</div>
+								</div>
+								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_largo" name="fp_medida_largo"  type="number" value="" placeholder="0 cm">
+							</div>
+						</div>
+					</div>
+					<div class="col-4" style="padding-left: 0px">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-ruler"></i></div>
+									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-ruler"></i> Ancho</div>
+								</div>
+								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_ancho" name="fp_medida_ancho"  type="number" value="" placeholder="0 cm">
+							</div>
+						</div>
+					</div> -->
+
+				<div class="form-row">
+					<div class="col-12">
+						<div class="form-group">
+							<textarea class="form-control e-input" id="fp_descripcion" name="fp_descripcion" style="resize: none;" rows="2" placeholder="Detalles del paquete"></textarea>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="form-row">
-				<div class="col-6">
-					<div class="form-group">
-						<label for="f-select-1">Select 1</label>
-						<select id="f-select-1" class="form-control e-input decorated">
-							<option class="e-option" value="1">Option 1</option>
-							<option class="e-option" value="2">Option 2</option>
-							<option class="e-option" value="3">Option 3</option>
-							<option class="e-option" value="4">Option 4</option>
-						</select>
+			<div class="e-form-panel" style="margin-top: 15px;"> <!-- Dirección origen -->
+				<p>Dirección origen</p>
+				<div class="form-row">
+					<div class="col-12 col-sm-6">
+						<div class="form-group"> 
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-text">Provincia</span>
+								</div>
+								<select id="fdo_provincia" name="fdo_provincia" class="form-control e-input e-select decorated">
+									<?php 
+										$provincias = new ProvinciaModel();
+										$provincias = $provincias->getAll();
+
+										$p_seleccionada = 0;
+										foreach ($provincias as $p){
+											if ($p_seleccionada != 0){
+												echo '<option class="e-option" value="'.$p->id.'">'.$p->nombre.'</option>';
+											} else {
+												$p_seleccionada = $p->id;
+												echo '<option class="e-option" value="'.$p->id.'" selected>'.$p->nombre.'</option>';
+											}
+										}
+									?>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6">
+						<div class="form-group"> 
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-text">Ciudad</span>
+								</div>
+								<select id="fdo_ciudad" name="fdo_ciudad" class="form-control e-input e-select decorated">
+									<?php 
+										$ciudades = new CiudadModel();
+										$ciudades = $ciudades->getBy('id_provincia', $p_seleccionada);
+
+										foreach ($ciudades as $c){
+											echo '<option class="e-option" value="'.$c->id.'">'.$c->nombre.'</option>';
+										}
+									?>
+								</select>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="col-6">
-					<div class="form-group">
-						<label for="f-select-2">Select 2</label>
-						<select id="f-select-2" class="form-control e-input">
-							<option class="e-option" value="1">Option 1</option>
-							<option class="e-option" value="2">Option 2</option>
-							<option class="e-option" value="3">Option 3</option>
-							<option class="e-option" value="4">Option 4</option>
-							<option class="e-option" value="5">Option 5</option>
-							<option class="e-option" value="6">Option 6</option>
-							<option class="e-option" value="7">Option 7</option>
-							<option class="e-option" value="8">Option 8</option>
-						</select>
+				<div class="form-row">
+					<div class="col-12 col-md-6">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-addon"><i class="fas fa-road"></i></span>
+								</div>
+								<input type="text" id="fdo_calle" name="fdo_calle" class="form-control e-input" placeholder="Calle">
+							</div>							
+						</div>
+					</div>
+					<div class="col-4 col-md-2">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-addon"><i class="fas fa-hashtag"></i></span>
+								</div>
+								<input type="text" id="fdo_numero" name="fdo_numero" class="form-control e-input" placeholder="Numero">
+							</div>							
+						</div>
+					</div>
+					<div class="col-4 col-md-2">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-addon"><i class="fas fa-building"></i></span>
+								</div>
+								<input type="text" id="fdo_piso" name="fdo_piso" class="form-control e-input" placeholder="Piso">
+							</div>							
+						</div>
+					</div>
+					<div class="col-4 col-md-2">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-addon"><i class="fas fa-font"></i></span>
+								</div>
+								<input type="text" id="fdo_depto" name="fdo_depto" class="form-control e-input" placeholder="Depto">
+							</div>							
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12">
+						<div class="form-group">
+							<textarea class="form-control e-input" id="fdo_descripcion" name="fdo_descripcion" style="resize: none;" rows="2" placeholder="Indicaciones detalladas"></textarea>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="form-row">
-				<div class="col-12">
-					<div class="form-group">
-						<label for="f-area-1">Text Area</label>
-						<textarea name="" id="f-area-1" cols="30" rows="3" class="form-control e-input" style="resize: none"></textarea>
+			<div class="e-form-panel" style="margin-top: 15px;">  <!-- Dirección destino -->
+				<p>Dirección destino</p>
+				<div class="form-row">
+					<div class="col-12 col-sm-6">
+						<div class="form-group"> 
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-text">Provincia</span>
+								</div>
+								<select id="fdd_provincia" name="fdd_provincia" class="form-control e-input e-select decorated">
+									<?php 
+										foreach ($provincias as $p){
+											if ($p_seleccionada != $p->id){
+												echo '<option class="e-option" value="'.$p->id.'">'.$p->nombre.'</option>';
+											} else {
+												$p_seleccionada = $p->id;
+												echo '<option class="e-option" value="'.$p->id.'" selected>'.$p->nombre.'</option>';
+											}
+										}
+									?>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6">
+						<div class="form-group"> 
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-text">Ciudad</span>
+								</div>
+								<select id="fdd_ciudad" name="fdd_ciudad" class="form-control e-input e-select decorated">
+									<?php 
+										$ciudades = new CiudadModel();
+										$ciudades = $ciudades->getBy('id_provincia', $p_seleccionada);
+
+										foreach ($ciudades as $c){
+											echo '<option class="e-option" value="'.$c->id.'">'.$c->nombre.'</option>';
+										}
+									?>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-md-6">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-addon"><i class="fas fa-road"></i></span>
+								</div>
+								<input type="text" id="fdd_calle" name="fdd_calle" class="form-control e-input" placeholder="Calle">
+							</div>							
+						</div>
+					</div>
+					<div class="col-4 col-md-2">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-addon"><i class="fas fa-hashtag"></i></span>
+								</div>
+								<input type="text" id="fdd_numero" name="fdd_numero" class="form-control e-input" placeholder="Numero">
+							</div>							
+						</div>
+					</div>
+					<div class="col-4 col-md-2">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-addon"><i class="fas fa-building"></i></span>
+								</div>
+								<input type="text" id="fdd_piso" name="fdd_piso" class="form-control e-input" placeholder="Piso">
+							</div>							
+						</div>
+					</div>
+					<div class="col-4 col-md-2">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text e-input-addon"><i class="fas fa-font"></i></span>
+								</div>
+								<input type="text" id="fdd_depto" name="fdd_depto" class="form-control e-input" placeholder="Depto">
+							</div>							
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12">
+						<div class="form-group">
+							<textarea class="form-control e-input" id="fdd_descripcion" name="fdd_descripcion" style="resize: none;" rows="2" placeholder="Indicaciones detalladas"></textarea>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="form-row">
-				<div class="col-12">
-					<button type="submit" class="btn btn-sm float-right e-card-btn"><i class="fas fa-check-circle"></i> Confirmar</button>
+			
+			<!-- <div class="e-form-panel"> -->
+				<div class="form-row" style="/*padding-right: 10px; margin-top: 15px; margin-bottom: 10px;*/">
+					<div class="col-12">
+						<button type="submit" class="btn e-card-btn float-right"><i class="fas fa-check-circle"></i> Confirmar</button>
+					</div>
 				</div>
-			</div>
+			<!-- </div> -->
 		</form>
 	</div>
 </div>

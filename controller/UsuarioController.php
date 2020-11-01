@@ -10,19 +10,42 @@ class UsuarioController extends ControladorBase{
     	echo "USUARIO/INDEX";
     }
 
-    public function perfil(){
+    public function miPerfil(){
+        session_start();
+        $usuario = new UsuarioModel();
+        //$envios = new EnvioModel();
+
+        $usuario        = $usuario->getById($_SESSION['id']);
+        $enviosTotales  = 10;//$envios->getBy('id_usuario', $usuario->id);
+        $solicitudes    = 2;//$envios->getSolicitudesUsuario($usuario->id);
+        $translados     = 3;//$envios->getTransladosUsuario($usuario->id);
+        $reputacion     = "Normal";//$envios->getReputacionUsuario($usuario->id);
+
+        $valTranslados  = "70%";
+        $valSolicitudes = "39%";
+
+        $data = array(
+            'usuario'       => $usuario, 
+            'enviosTotales' => $enviosTotales, 
+            'solicitudes'   => $solicitudes, 
+            'valSolicitudes'=> $valSolicitudes,
+            'translados'    => $translados, 
+            'valTranslados' => $valTranslados,
+            'reputacion'    => $reputacion
+        );
+
 		$this->view("header", "");
 		$this->view("navbar", "");
-		$this->view("perfilUsuario", "");
+		$this->view("perfilUsuario", $data);
 		$this->view("footer", "");
 
 		// $u = new UsuarioModel();
 
-  //   	$data = array(	'nombre' => 1,
-  //   					'apellido' => 2,
-  //   					'email' => 3,
-  //   					'dni' => 1,
-  //   					'contraseña' => 1 );
+        //   	$data = array(	'nombre' => 1,
+        //   					'apellido' => 2,
+        //   					'email' => 3,
+        //   					'dni' => 1,
+        //   					'contraseña' => 1 );
 		// echo "<pre>";
 		// print_r($u->insert($data));
     }
@@ -66,7 +89,7 @@ class UsuarioController extends ControladorBase{
 		    	$_SESSION['avatar'] 	= $usuario->getAvatar();
 
 		    	// Registro exitoso
-    			$_SESSION['alerta'] = "Registro exitoso";
+    			$_SESSION['log'] = "Registro exitoso";
 		    	$this->redirect("publicacion", "inicio");
 	    	} else {
 	    		// Error: Falló el registro
@@ -93,7 +116,7 @@ class UsuarioController extends ControladorBase{
 		    	$_SESSION['avatar'] 	= $existente[0]->avatar;
 
     			// Sesion iniciada correctamente
-    			$_SESSION['alerta'] = "Inicio de sesión exitoso";
+    			$_SESSION['log'] = "Inicio de sesión exitoso";
     			$this->redirect("publicacion", "inicio");
     		} else {
     			//Error: Contraseña incorrecta
@@ -124,10 +147,12 @@ class UsuarioController extends ControladorBase{
     	if ($modificacion){
     		$_SESSION['avatar'] = $usuario->getAvatar();
 	    	// Cambio de avatar exitoso
-	    	$_SESSION['alerta'] = "Cambio de avatar exitoso";
-	    	$this->redirect("usuario", "perfil");
+	    	$_SESSION['log'] = "Cambio de avatar exitoso";
+	    	$this->redirect("usuario", "miPerfil");
     	} else {
-    		echo "ERROR: ".Conectar::$con->error;
+            // Error: No se pudo cambiar el avatar
+            $_SESSION['alerta'] = "Error: No se pudo cambiar el avatar - ".Conectar::$con->error;
+            $this->redirect("usuario", "miPerfil");
     	}
     }
 
@@ -144,31 +169,31 @@ class UsuarioController extends ControladorBase{
     	// EJEMPLO DE ALTA USANDO EntidadBase->insert
     	$data = array(
     		'id_usuario' 	=> $_SESSION['id'], 
-    		'patente' 		=> $_POST['fv_patente'], 
     		'tipo' 			=> $_POST['fv_tipo'], 
+    		'patente' 		=> $_POST['fv_patente'], 
     		'marca' 		=> $_POST['fv_marca'], 
     		'modelo' 		=> $_POST['fv_modelo'], 
     	);
 
 		if (sizeof($vehiculo->getBy("id_usuario", $_SESSION['id'])) > 4){
-	    	// Error: Falló el alta porque el usuario ya tiene demasiados vehiculos
-    		$_SESSION['alerta'] = "Error: Falló el alta porque el usuario ya tiene demasiados vehiculos";
-    		$this->redirect('usuario', 'perfil');
+	    	// Error: El usuario ya tiene demasiados vehiculos
+    		$_SESSION['alerta'] = "Error: El usuario ya tiene demasiados vehiculos";
+    		$this->redirect('usuario', 'miPerfil');
     	} else if ($vehiculo->getBy("patente", $vehiculo->getPatente())){
     		// Error: Ya existe un vehiculo con esa patente
     		$_SESSION['alerta'] = "Error: Ya existe un vehiculo con esa patente";
-    		$this->redirect('usuario', 'perfil');
+    		$this->redirect('usuario', 'miPerfil');
     	} else {
     		//$alta = $vehiculo->alta();
     		$alta = $vehiculo->insert($data); // EJEMPLO DE ALTA USANDO EntidadBase->insert
     		if ($alta){
     			// Alta exitosa
-    			$_SESSION['alerta'] = "Alta de vehiculo exitosa";
-    			$this->redirect('usuario', 'perfil');
+    			$_SESSION['log'] = "Alta de vehiculo exitosa";
+    			$this->redirect('usuario', 'miPerfil');
     		} else {
-	    		// Error: Falló el alta
-    			$_SESSION['alerta'] = "Error: Falló el alta de vehiculo - ".Conectar::$con->error;
-    			$this->redirect('usuario', 'perfil');
+	    		// Error: No se pudo crear el vehiculo
+    			$_SESSION['alerta'] = "Error: No se pudo crear el vehiculo - ".Conectar::$con->error;
+    			$this->redirect('usuario', 'miPerfil');
 	    	}
     	}
     }
@@ -185,17 +210,17 @@ class UsuarioController extends ControladorBase{
 
     		if ($baja){
 	    		// Eliminación exitosa
-    			$_SESSION['alerta'] = "Eliminación de vehiculo exitosa";
-    			$this->redirect('usuario', 'perfil');
+    			$_SESSION['log'] = "Eliminación de vehiculo exitosa";
+    			$this->redirect('usuario', 'miPerfil');
     		} else {
-		    	// Error: Falló la eliminación
-    			$_SESSION['alerta'] = "Error: Falló la eliminación de vehiculo - ".Conectar::$con->error;
-    			$this->redirect('usuario', 'perfil');
+		    	// Error: No se pudo eliminar el vehiculo
+    			$_SESSION['alerta'] = "Error: No se pudo eliminar el vehiculo - ".Conectar::$con->error;
+    			$this->redirect('usuario', 'miPerfil');
     		}
     	} else {
 	    	// Error: Falló la eliminación del vehiculo porque no pertenece al usuario logueado
     		$_SESSION['alerta'] = "Error: Falló la eliminación del vehiculo porque no pertenece al usuario logueado";
-    		$this->redirect('usuario', 'perfil');
+    		$this->redirect('usuario', 'miPerfil');
     	}
     }
 

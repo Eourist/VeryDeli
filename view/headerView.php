@@ -1,6 +1,6 @@
 <?php 
-	session_start();
-	
+	if (!isset($_SESSION['id']) && !isset($_SESSION['alerta']))
+		session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,11 +21,19 @@
 <body>
 	<?php 
 	if (isset($_SESSION['alerta'])){
-		echo "<script> console.log(\"".$_SESSION['alerta']."\"); </script>";
+		echo "<script> alert(\"".$_SESSION['alerta']."\"); </script>";
 		$_SESSION['alerta'] = NULL;
 	}
 	else
 		echo "<script> console.log('No hay alertas'); </script>";
+
+	if (isset($_SESSION['log'])){
+		echo "<script> console.log(\"".$_SESSION['log']."\"); </script>";
+		$_SESSION['log'] = NULL;
+	}
+	else
+		echo "<script> console.log('No hay mensajes'); </script>";
+	
 	if (isset($_SESSION['nombre']))
 		echo "<script> console.log('Usuario ' + '".$_SESSION['nombre']." - ".$_SESSION['id']."'); </script>";
 	else

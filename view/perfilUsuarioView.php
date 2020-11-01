@@ -81,7 +81,7 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content" style="border-width: 0px;">
 			<div class="modal-header e-modal-header">
-				<h5 class="w-100 text-center">Personalizar perfil: Avatar</h5>
+				<h5 class="w-100 text-center">Personalizar Avatar</h5>
 			</div>
 			<form action="<?php echo $helper->url('usuario', 'cambiarAvatar'); ?>" method="post">
 				<div class="modal-body text-center">
@@ -120,7 +120,7 @@
 	<div class="" id="post-body-1">
 		<div class="card-body e-card-body" style="padding: 10px;">
 			<div class="row">
-				<div class="col-5 col-sm-4 col-md-3 col-lg-2">
+				<div class="col-5 col-sm-4 col-md-3 col-lg-2" style="padding-left: 0px;">
 					<button type="button" class="btn e-avatar-btn" data-toggle="modal" data-target="#modal-seleccion-avatar"><img class="e-avatar" src="assets/img/avatares/<?php echo $_SESSION['avatar']; ?>.png" alt="User Avatar"></button>
 				</div>
 				<div class="col-7 col-sm-8 col-md-9 col-lg-10" style="padding-left: 0px">
@@ -128,24 +128,24 @@
 						<div class="h-100 w-100">
 							<div class="row h-50">
 								<div class="col-6 col-lg-3 h-100 d-flex align-items-center text-justify text-center" style="padding-left: 0px">
-									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">Pedidos:</span><br class="d-md-none"> 17 (67%)</p>
+									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">E. Solicitados:</span><br class="d-md-none"> <?php echo $solicitudes." (".$valSolicitudes.")"; ?></p>
 								</div>
 								<div class="col-6 col-lg-3 h-100 d-flex align-items-center text-justify text-center" style="padding-left: 0px">
-									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">Registro:</span><br class="d-md-none"> 00/00/000</p>
+									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">E. Realizados:</span><br class="d-md-none"> <?php echo $translados." (".$valTranslados.")"; ?></p>
 								</div>
 								<div class="col-6 d-none d-lg-flex h-100 align-items-center text-justify text-center" style="padding-left: 0px">
-									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">Email:</span><br class="d-md-none"> diegoeouristspartano@gmail.com</p>
+									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">E. Totales:</span><br class="d-md-none"> <?php echo $enviosTotales; ?></p>
 								</div>
 							</div>
 							<div class="row h-50">
 								<div class="col-6 col-lg-3 h-100 d-flex align-items-center text-justify text-center" style="padding-left: 0px">
-									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">Envíos:</span><br class="d-md-none"> 3 (11%)</p>
+									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">Reputacion:</span><br class="d-md-none"> <?php echo "Excelente";//$reputacion; ?></p>
 								</div>
 								<div class="col-6 col-lg-3 h-100 d-flex align-items-center text-justify text-center" style="padding-left: 0px">
-									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">Reputacion:</span><br class="d-md-none"> Responsable</p>
+									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">Registro:</span><br class="d-md-none"> <?php echo $usuario->fecha_registro; ?></p>
 								</div>
 								<div class="col-6 d-none d-lg-flex h-100 align-items-center text-justify text-center" style="padding-left: 0px">
-									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">Tel:</span><br class="d-md-none"> +54 233 412328</p>
+									<p style="margin-bottom: 0px"><span class="badge e-card-badge badge-dark" style="width: 90px">Email:</span><br class="d-md-none"> <?php echo $usuario->email; ?></p>
 								</div>
 							</div>
 						</div>
