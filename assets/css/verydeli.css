@@ -78,6 +78,10 @@ body{
 /* FIN NAVBAR*/
 
 /* FORMULARIOS */
+	.error{
+		color: red;
+	}
+
 	form{
 		color: #656565;
 	}

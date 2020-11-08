@@ -7,7 +7,9 @@ class UsuarioController extends ControladorBase{
     }
 
     public function index(){
-    	echo "USUARIO/INDEX";
+    	// echo "USUARIO/INDEX";
+        $this->view("header", "");
+        $this->view("footer", "");
     }
 
     public function miPerfil(){

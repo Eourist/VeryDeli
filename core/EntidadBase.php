@@ -45,13 +45,16 @@ class EntidadBase{
     }
 
     public function insert($values){
+    	// Obtener los nombres de las columnas de la tabla
         $queryColumnas = $this->db()->query("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '".$this->table."'");
 
+        // Armar la cadena de columnas
         $stringColumnas = "";
         while ($row = $queryColumnas->fetch_object())
             $stringColumnas .= $row->COLUMN_NAME.", ";
         $stringColumnas = substr($stringColumnas, 0, -2);
 
+        // Armar la cadena de valores
         $stringValues = "";
         foreach ($values as $val)
             $stringValues .= "'".$val."', ";

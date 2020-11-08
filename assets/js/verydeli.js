@@ -90,4 +90,205 @@ jQuery(document).ready(function($) {
 			});
 		});
 	});
+
+	// $('#form-publicaciones').submit(function(event) {
+		// console.log("submited");
+		// $('#form-publicaciones').validate({
+		// 	rules: {
+		// 		fp_titulo: {
+		// 			required: true,
+		// 			minlength: 6
+		// 		}
+		// 	},
+		// 	messages: {
+		// 		fp_titulo: {
+		// 			required: "Campo requerido!!",
+		// 			minlength: "Minimo 6 caracteres!!"
+		// 		}
+		// 	}
+		// });
+
+	$("#form-publicaciones").validate({
+		rules: {
+			fp_titulo: {
+				required: true,
+				minlength: 20,
+				maxlength: 100
+			},
+			fp_fecha_salida: {
+				required: true
+			},
+			fp_hora_salida: {
+				required: true
+			},
+			fp_medida_peso: {
+				required: true,
+				maxlength: 5
+			},
+			// fp_medida_alto: {
+			// 	//required: true,
+			// 	//maxlength: 5
+			// 	required: {
+			// 		depends: function(){
+			// 			let a = $('#fp_medida_alto').val() != "" && $('#fp_medida_largo').val() != "" && $('#fp_medida_ancho').val() != "";
+			// 			console.log("required: " + a);
+			// 			return a;
+			// 		}
+			// 	},
+			// 	maxlength: {
+			// 		depends: function(){
+			// 			let a = $('#fp_medida_alto').val().length < 6 && $('#fp_medida_largo').val().length < 6 && $('#fp_medida_ancho').val().length < 6;
+			// 			console.log("maxlength: " + a);
+			// 			return a;
+			// 		}
+			// 	}
+			// },
+				fp_medida_alto: {
+					required: true,
+					maxlength: 5
+				},
+				fp_medida_largo: {
+					required: true,
+					maxlength: 5
+				},
+				fp_medida_ancho: {
+					required: true,
+					maxlength: 5
+				},
+			fp_descripcion: {
+				maxlength: 300
+			},
+			// DIRECCION DE ORIGEN
+			fdo_calle: {
+				required: true,
+				maxlength: 40,
+				minlength: 5
+			},
+			fdo_numero: {
+				required: true,
+				maxlength: 5,
+				digits: true
+			},
+			fdo_piso: {
+				maxlength: 2,
+				digits: true
+			},
+			fdo_depto: {
+				maxlength: 2
+			},
+			fdo_descripcion: {
+				maxlength: 200
+			},
+			// DIRECCION DE DESTINO
+			fdd_calle: {
+				required: true,
+				maxlength: 40,
+				minlength: 5
+			},
+			fdd_numero: {
+				required: true,
+				maxlength: 5,
+				digits: true
+			},
+			fdd_piso: {
+				maxlength: 2,
+				digits: true
+			},
+			fdd_depto: {
+				maxlength: 2
+			},
+			fdd_descripcion: {
+				maxlength: 200
+			}
+		},
+		messages: {
+			fp_titulo: {
+				required: "Campo obligatorio",
+				minlength: "Minimo 20 caracteres",
+				maxlength: "Máximo 100 caracteres"
+			},
+			fp_fecha_salida: {
+				required: "Campo obligatorio"
+			},
+			fp_hora_salida: {
+				required: "Campo obligatorio"
+			},
+			fp_medida_peso: {
+				required: "Campo obligatorio",
+				maxlength: "Máximo 5 digitos"
+			},
+			fp_medida_alto: {
+				required: "Campo obligatorio",
+				maxlength: "Máximo 5 digitos"
+			},
+
+			fp_medida_largo: {
+				required: "Campo obligatorio",
+				maxlength: "Máximo 5 digitos"
+			},
+			fp_medida_ancho: {
+				required: "Campo obligatorio",
+				maxlength: "Máximo 5 digitos"
+			},
+			fp_descripcion: {
+				maxlength: "Máximo 300 caracteres"
+			},
+			// DIRECCION DE ORIGEN
+			fdo_calle: {
+				required: "Campo obligatorio",
+				maxlength: "Máximo 40 caracteres",
+				minlength: "Minimo 5 caracteres"
+			},
+			fdo_numero: {
+				required: "Campo obligatorio",
+				maxlength: "Máximo 5 digitos",
+				digits: "Solo enteros"
+			},
+			fdo_piso: {
+				maxlength: "Máximo 2 digitos",
+				digits: "Solo enteros"
+			},
+			fdo_depto: {
+				maxlength: "Máximo 2 caracteres"
+			},
+			fdo_descripcion: {
+				maxlength: "Máximo 200 caracteres"
+			},
+			// DIRECCION DE DESTINO
+			fdd_calle: {
+				required: "Campo obligatorio",
+				maxlength: "Máximo 40 caracteres",
+				minlength: "Minimo 5 caracteres"
+			},
+			fdd_numero: {
+				required: "Campo obligatorio",
+				maxlength: "Máximo 5 digitos",
+				digits: "Solo enteros"
+			},
+			fdd_piso: {
+				maxlength: "Máximo 2 digitos",
+				digits: "Solo enteros"
+			},
+			fdd_depto: {
+				maxlength: "Máximo 2 caracteres"
+			},
+			fdd_descripcion: {
+				maxlength: "Máximo 200 caracteres"
+			}
+		},
+		errorPlacement: function(error, element) {
+			error.insertAfter(element.parent());
+		}
+	});
 });
+
+function probarValidacion(){
+	var validator = $("#form-publicaciones").validate({
+		rules: {
+			fp_titulo: "required"
+		},
+		messages: {
+			fp_titulo: {required:"Please specify your title"}
+		}
+	});
+}

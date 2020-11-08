@@ -40,16 +40,6 @@
 		echo "<script> console.log('No hay sesion iniciada'); </script>";
 	?>
 
-	<script>
-		function pruebaAjax(data){
-			$.ajax({
-				url: '<?php echo $helper->url('usuario', 'pruebaAjax');?>',
-				type: 'POST',
-				data: {data: data},
-			})
-			.done(function(data) {
-				data = jQuery.parseJSON(data);
-				console.log(data);
-			});
-		}
-	</script>
+	
+
+	

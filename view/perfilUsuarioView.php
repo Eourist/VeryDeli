@@ -120,7 +120,7 @@
 	<div class="" id="post-body-1">
 		<div class="card-body e-card-body" style="padding: 10px;">
 			<div class="row">
-				<div class="col-5 col-sm-4 col-md-3 col-lg-2" style="padding-left: 0px;">
+				<div class="col-5 col-sm-4 col-md-3 col-lg-2" style="padding-left: 10px;">
 					<button type="button" class="btn e-avatar-btn" data-toggle="modal" data-target="#modal-seleccion-avatar"><img class="e-avatar" src="assets/img/avatares/<?php echo $_SESSION['avatar']; ?>.png" alt="User Avatar"></button>
 				</div>
 				<div class="col-7 col-sm-8 col-md-9 col-lg-10" style="padding-left: 0px">

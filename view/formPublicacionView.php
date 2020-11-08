@@ -3,7 +3,7 @@
 		<h5>Nueva publicación</h5>
 	</div>
 	<div class="card-body e-card-body" style="padding: 10px;">
-		<form action="<?php echo $helper->url("publicacion","crear"); ?>" method="post">
+		<form action="<?php echo $helper->url("publicacion","crear"); ?>" id="form-publicaciones" method="post">
 			<div class="e-form-panel"> <!-- Información de la solicitud de envío y del paquete -->
 				<p>Información de la solicitud de envío y del paquete</p>
 				<div class="form-row">
@@ -12,9 +12,9 @@
 							<div class="form-group">
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text e-input-addon"><i class="fas fa-font"></i></span>
+										<span class="input-group-text e-input-addon"><i class="fas fa-heading"></i></span>
 									</div>
-									<input type="text" id="fp_titulo" name="fp_titulo" class="form-control e-input" placeholder="Titulo">
+									<input type="text" id="fp_titulo" name="fp_titulo" class="form-control e-input" placeholder="Titulo" >
 								</div>							
 							</div>
 						</div>
@@ -27,7 +27,7 @@
 								<div class="input-group-prepend">
 									<div class="input-group-text e-input-text">Fecha</div>
 								</div>
-								<input class="form-control e-input" id="fp_fecha_salida" name="fp_fecha_salida"  type="date" value="" placeholder="Fecha de salida">
+								<input class="form-control e-input" id="fp_fecha_salida" name="fp_fecha_salida"  type="date" value="" placeholder="Fecha de salida" >
 							</div>
 						</div>
 					</div>
@@ -37,7 +37,7 @@
 								<div class="input-group-prepend">
 									<div class="input-group-text e-input-text">Hora</div>
 								</div>
-								<input class="form-control e-input" id="fp_hora_salida" name="fp_hora_salida" type="time" value="" placeholder="Hora de salida">
+								<input class="form-control e-input" id="fp_hora_salida" name="fp_hora_salida" type="time" value="" placeholder="Hora de salida" >
 							</div>
 						</div>
 					</div>
@@ -65,33 +65,33 @@
 									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-weight-hanging"></i></div>
 									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-weight-hanging"></i> Peso</div>
 								</div>
-								<input class="form-control e-input e-input-medido" data-medida="Kg" id="fp_medida_peso" name="fp_medida_peso"  type="number" value="" placeholder="0 Kg">
+								<input class="form-control e-input e-input-medido" data-medida="Kg" id="fp_medida_peso" name="fp_medida_peso"  type="number" value="" placeholder="0 Kg" >
 							</div>
 						</div>
 					</div>
-					<div class="col-12">
+					<!-- <div class="col-12">
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-ruler-vertical"></i></div>
 									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-ruler-vertical"></i> Alto</div>
 								</div>
-								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_alto" name="fp_medida_alto"  type="number" value="" placeholder="0 cm">
+								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_alto" name="fp_medida_alto"  type="number" value="" placeholder="0 cm" >
 								<div class="input-group-prepend">
 									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-ruler-horizontal"></i></div>
 									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-ruler-horizontal"></i> Largo</div>
 								</div>
-								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_largo" name="fp_medida_largo"  type="number" value="" placeholder="0 cm">
+								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_largo" name="fp_medida_largo"  type="number" value="" placeholder="0 cm" >
 								<div class="input-group-prepend">
 									<div class="input-group-text e-input-addon d-inline d-sm-none" style="width: 45px"><i class="fas fa-ruler"></i></div>
 									<div class="input-group-text e-input-text d-none d-sm-inline" style="border-radius: 4px 0px 0px 4px;"><i class="fas fa-ruler"></i> Ancho</div>
 								</div>
-								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_ancho" name="fp_medida_ancho"  type="number" value="" placeholder="0 cm">
+								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_ancho" name="fp_medida_ancho"  type="number" value="" placeholder="0 cm" >
 							</div>
 						</div>
 					</div>
-					</div>
-					<!-- <div class="col-4" style="padding-right: 0px">
+				</div> -->
+					<div class="col-4" style="padding-right: 0px">
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -123,7 +123,8 @@
 								<input class="form-control e-input e-input-medido" data-medida="cm" id="fp_medida_ancho" name="fp_medida_ancho"  type="number" value="" placeholder="0 cm">
 							</div>
 						</div>
-					</div> -->
+					</div>
+					</div>
 
 				<div class="form-row">
 					<div class="col-12">
@@ -188,7 +189,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text e-input-addon"><i class="fas fa-road"></i></span>
 								</div>
-								<input type="text" id="fdo_calle" name="fdo_calle" class="form-control e-input" placeholder="Calle">
+								<input type="text" id="fdo_calle" name="fdo_calle" class="form-control e-input" placeholder="Calle" >
 							</div>							
 						</div>
 					</div>
@@ -198,7 +199,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text e-input-addon"><i class="fas fa-hashtag"></i></span>
 								</div>
-								<input type="text" id="fdo_numero" name="fdo_numero" class="form-control e-input" placeholder="Numero">
+								<input type="number" id="fdo_numero" name="fdo_numero" class="form-control e-input" placeholder="Numero" >
 							</div>							
 						</div>
 					</div>
@@ -208,7 +209,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text e-input-addon"><i class="fas fa-building"></i></span>
 								</div>
-								<input type="text" id="fdo_piso" name="fdo_piso" class="form-control e-input" placeholder="Piso">
+								<input type="number" id="fdo_piso" name="fdo_piso" class="form-control e-input" placeholder="Piso">
 							</div>							
 						</div>
 					</div>
@@ -282,7 +283,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text e-input-addon"><i class="fas fa-road"></i></span>
 								</div>
-								<input type="text" id="fdd_calle" name="fdd_calle" class="form-control e-input" placeholder="Calle">
+								<input type="text" id="fdd_calle" name="fdd_calle" class="form-control e-input" placeholder="Calle" >
 							</div>							
 						</div>
 					</div>
@@ -292,7 +293,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text e-input-addon"><i class="fas fa-hashtag"></i></span>
 								</div>
-								<input type="text" id="fdd_numero" name="fdd_numero" class="form-control e-input" placeholder="Numero">
+								<input type="text" id="fdd_numero" name="fdd_numero" class="form-control e-input" placeholder="Numero" >
 							</div>							
 						</div>
 					</div>
