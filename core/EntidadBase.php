@@ -23,7 +23,7 @@ class EntidadBase{
            $resultSet[] = $row;
         }
         
-        return $resultSet;
+        return (isset($resultSet)) ? $resultSet : NULL;
     }
     
     public function getById($id){
@@ -32,6 +32,24 @@ class EntidadBase{
         if($row = $query->fetch_object())
            $resultSet = $row;
 
+        return isset($resultSet) ? $resultSet : NULL;
+    }
+    
+    public function getByIdAsArray($id){
+        $query = $this->db()->query("SELECT * FROM $this->table WHERE id=$id");
+
+        if($row = $query->fetch_object())
+           $resultSet = (array)$row;
+
+        return isset($resultSet) ? $resultSet : NULL;
+    }
+    
+    public function getByAsArray($column,$value){
+        $query=$this->db()->query("SELECT * FROM $this->table WHERE $column='$value'");
+
+        while($row = $query->fetch_object())
+           $resultSet[] = (array)$row;
+        
         return isset($resultSet) ? $resultSet : NULL;
     }
     
@@ -57,10 +75,12 @@ class EntidadBase{
         // Armar la cadena de valores
         $stringValues = "";
         foreach ($values as $val)
-            $stringValues .= "'".$val."', ";
+            $stringValues .= (isset($val)) ? "'".$val."', " : "NULL, ";
         $stringValues = substr($stringValues, 0, -2);
 
         $query = $this->db()->query("INSERT INTO ".$this->table." (".$stringColumnas.") VALUES (NULL,".$stringValues.");");
+        
+        // echo "INSERT INTO ".$this->table." (".$stringColumnas.") VALUES (NULL,".$stringValues.");"; exit();
 
         return $query;
     }

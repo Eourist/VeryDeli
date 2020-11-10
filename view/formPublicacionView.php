@@ -9,14 +9,14 @@
 				<div class="form-row">
 					<div class="col-12">
 						<div class="form-group">
-							<div class="form-group">
+							<div class="form-group"> 	<!-- POR QUE HAY 2 FORM GROUPS??? -->
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text e-input-addon"><i class="fas fa-heading"></i></span>
 									</div>
-									<input type="text" id="fp_titulo" name="fp_titulo" class="form-control e-input" placeholder="Titulo" >
+									<input type="text" id="fp_titulo" name="fp_titulo" class="form-control e-input" placeholder="Titulo">
 								</div>							
-							</div>
+							</div> 						<!-- POR QUE HAY 2 FORM GROUPS??? -->
 						</div>
 					</div>
 				</div>
@@ -53,7 +53,7 @@
 									<option class="e-option" value="auto">Auto</option>
 									<option class="e-option" value="moto">Moto</option>
 									<option class="e-option" value="camioneta">Camioneta</option>
-									<option class="e-option" value="camion">Camión</option>
+									<option class="e-option" value="camión">Camión</option>
 								</select>
 							</div>
 						</div>

@@ -25,9 +25,9 @@ if (!isset($_SESSION['id'])) {
 						<a href="#" class="nav-link" id="nav-search-btn" style=""><i class="fas fa-search float-right"></i></a>
 					</form>
 				</li>
-				<!-- <li class="nav-item h-100">
-					<a class="nav-link e-nav-link" href="#"></a>
-				</li> -->
+				<li class="nav-item h-100">
+					<a class="nav-link e-nav-link" href="<?php echo $helper->url('publicacion', 'nuevaPublicacion'); ?>">Publicar</a>
+				</li>
 				<li class="nav-item dropdown h-100">
 					<a class="nav-link dropdown-toggle e-nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<?php 
@@ -51,5 +51,5 @@ if (!isset($_SESSION['id'])) {
 	<p>Sesión iniciada correctamente</p>
 </div> -->
 
-<div class="container" id="e-main-container" style="background-color: #505050; min-height: 100vh; padding-bottom: 10px;">
+<div class="container" id="e-main-container" style="background-color: #505050; min-height: 100vh; padding-bottom: 70px;">
 	<div style="width: 100%; height: 85px;"></div>

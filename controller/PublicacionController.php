@@ -12,10 +12,106 @@
 	}
 
 	public function inicio(){
+		$publicaciones = new PublicacionModel();
+		$publicaciones = $publicaciones->getAll();
+
+		$dm 	= new DireccionModel();
+		$cm 	= new CiudadModel();
+		$pm 	= new ProvinciaModel();
+		$um 	= new UsuarioModel();
+		$com 	= new ComentarioModel();
+
+		$this->view("header", "");
+		$this->view("navbar", "");
+		if (isset($publicaciones[0])){
+			foreach ($publicaciones as $publicacion){
+				$dir_o = $dm->getById($publicacion->id_direccion_origen);
+				$dir_o = array(
+					'calle' => $dir_o->calle,
+					'numero' => $dir_o->numero,
+					'piso' => $dir_o->piso,
+					'depto' => $dir_o->depto,
+					'descripcion' => $dir_o->descripcion, 
+					'id_provincia' => $dir_o->id_provincia,
+					'id_ciudad' => $dir_o->id_ciudad,
+					'provincia' => $pm->getById($dir_o->id_provincia)->nombre,
+					'ciudad' => $cm->getById($dir_o->id_ciudad)->nombre
+				);
+
+				$dir_d = $dm->getById($publicacion->id_direccion_destino);
+				$dir_d = array(
+					'calle' => $dir_d->calle,
+					'numero' => $dir_d->numero,
+					'piso' => $dir_d->piso,
+					'depto' => $dir_d->depto,
+					'descripcion' => $dir_d->descripcion, 
+					'id_provincia' => $dir_d->id_provincia,
+					'id_ciudad' => $dir_d->id_ciudad,
+					'provincia' => $pm->getById($dir_d->id_provincia)->nombre,
+					'ciudad' => $cm->getById($dir_d->id_ciudad)->nombre
+				);
+
+				// $comentarios = (array)$com->getByAsArray('id_publicacion', $publicacion->id);
+				$comentarios = (array)$com->getComentariosPublicacion($publicacion->id);
+
+				// echo '<pre>'; print_r($comentarios); exit();
+
+				// tira error si la publicacion no tiene comentarios
+				for ($i = 0; $i < count($comentarios); $i++){
+					$usuario = $um->getById($comentarios[$i]['id_usuario']);
+					$comentarios[$i]['usuario'] 		= $usuario->nombre;
+					$comentarios[$i]['usuario_avatar'] 	= $usuario->avatar;
+					if (!empty($comentarios[$i]['id_usuario_respuesta']))
+						$comentarios[$i]['usuario_respuesta'] = $um->getById($comentarios[$i]['id_usuario_respuesta'])->nombre; 
+				}
+				//echo '<pre>'; print_r($comentarios); exit();
+
+				$data = array(
+					'publicacion' 		=> (array)$publicacion,
+					'dir_o' 	=> $dir_o,
+					'dir_d' => $dir_d,
+					'usuario' => (array)($um->getById($publicacion->id_usuario)),
+					'comentarios' => $comentarios
+				);
+
+				$this->view("publicacion", $data);
+				$this->view("comentarios", $data);
+			}
+		} else {
+				$this->view("errorBusqueda", "");
+		}
+		$this->view("footer", "");
+	}
+
+
+	public function comentar(){
+		session_start();
+		date_default_timezone_set("America/Argentina/Buenos_Aires");
+		
+
+		$cm = new ComentarioModel();
+
+		$data = array(
+			'id_publicacion' 		=> $_POST['fc_id_publicacion'],
+			'id_usuario' 			=> $_POST['fc_id_usuario'],
+			'id_usuario_respuesta'  => (isset($_POST['fc_id_usuario_respuesta'])) ? $_POST['fc_id_usuario_respuesta'] : NULL,
+			'texto'					=> (isset($_POST['fc_id_usuario_respuesta'])) ? $_POST['fc_respuesta'] : $_POST['fc_comentario'],
+			'fecha' => date("Y/m/d"),
+			'hora' => date("H:i:s")
+		);
+
+		$alta = $cm->insert($data);
+
+		if (!$alta)
+			echo "Error: ".Conectar::$con->error;
+		else
+			$this->redirect("Publicacion", "inicio");
+	}
+
+	public function nuevaPublicacion(){
 		$this->view("header", "");
 		$this->view("navbar", "");
 		$this->view("formPublicacion", "");
-		$this->view("publicacion", "");
 		$this->view("footer", "");
 	}
 

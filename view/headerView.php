@@ -19,6 +19,7 @@
 	<title>VeryDeli</title>
 </head>
 <body>
+	
 	<?php 
 	if (isset($_SESSION['alerta'])){
 		echo "<script> alert(\"".$_SESSION['alerta']."\"); </script>";
