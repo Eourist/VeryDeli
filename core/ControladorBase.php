@@ -30,8 +30,8 @@ class ControladorBase{
         require 'view/'.$vista.'View.php';
     }
     
-    public function redirect($controlador=CONTROLADOR_DEFECTO,$accion=ACCION_DEFECTO){
-        header("Location:index.php?controller=".$controlador."&action=".$accion);
+    public function redirect($controlador=CONTROLADOR_DEFECTO,$accion=ACCION_DEFECTO,$get=NULL){
+        header("Location:index.php?controller=".$controlador."&action=".$accion.$get);
     }
     
     //Métodos para los controladores

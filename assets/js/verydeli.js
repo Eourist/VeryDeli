@@ -50,6 +50,60 @@ jQuery(document).ready(function($) {
 		$('#f_avatar').val("av ("+nro+")");
 	});
 
+	// CARGAR DATOS DE LA PUBLICACION EN EL MODAL DE CREAR POSTULACION
+	$('.e-btn-postularse').click(function(event) {
+		let id_publicacion 	= $(this).data('id-publicacion');
+		let desde 			= $(this).data('desde');
+		let hasta 			= $(this).data('hasta');
+		let salida 			= $(this).data('salida');
+
+		$.ajax({
+			url: 'index.php?controller=publicacion&action=getDatosPostulantesPublicacion',
+			type: 'POST',
+			data: {id_publicacion: id_publicacion},
+		})
+		.done(function(data) {
+			data = jQuery.parseJSON(data);
+
+			if(data.cantidad > 0){
+				$('#e-mp-info').html('Actualmente hay <strong>'+data.cantidad+'</strong> usuarios postulados <br> Por un precio mínimo de <strong>$'+data.precio_minimo+'</strong>');
+			} else {
+				$('#e-mp-info').html('Actualmente no hay nadie postulado en esta publicación');
+			}
+			$('#e-mp-desde').html(desde);
+			$('#e-mp-hasta').html(hasta);
+			$('#e-mp-salida').html(salida);
+
+			$('#fp_id_publicacion').val(id_publicacion);
+			// console.log(data);
+		});
+	});
+
+	// CARGAR DATOS DE LA PUBLICACION EN EL MODAL DE VER POSTULANTES
+	$('.e-btn-candidatos').click(function(event) {
+		let id_publicacion 	= $(this).data('id-publicacion');
+
+		$.ajax({
+			url: 'index.php?controller=publicacion&action=getPostulantesPublicacion',
+			type: 'POST',
+			data: {id_publicacion: id_publicacion},
+		})
+		.done(function(data) {
+			data = jQuery.parseJSON(data);
+			console.log("id publicacion: " + id_publicacion);
+			console.log(data);
+			if(data != null){
+				let html = "";
+				data.forEach(function(item, index){
+					html += item.id_postulacion + " <br> ";
+				});
+				$('#e-mp-listado').html(html);
+			} else {
+				$('#e-mp-listado').html('Actualmente no hay nadie postulado en esta publicación');
+			}
+		});
+	});
+
 
 	// SELECTS DE PROVINCIAS EN FORMULARIO DE ORDENES
 		$('#fdd_provincia').change(function(event) {
@@ -265,6 +319,9 @@ jQuery(document).ready(function($) {
 	// FIN VALIDACION DE FORMULARIOS
 
 	// COMENTARIOS
+		
+		
+
 		$('.e-btn-responder').click(function(event) {
 			var id_comentario = $(this).data('com-id');
 			var input_res = $('#com-respuesta-'+id_comentario);
@@ -286,6 +343,55 @@ jQuery(document).ready(function($) {
 		$('#e-btn-reportar').click(function(event) {
 			/* ABRIR MODAL DE REPORTAR */
 		});
+
+		$('.e-com-mostrar-mas').click(function(event) {
+			let id_publicacion = $(this).data('id-publicacion');
+
+			if ($(this).data('estado') == 'max'){
+				// $('.comentario-oculto-'+id_publicacion).addClass('d-none');
+				$('.comentario-oculto-'+id_publicacion).hide();//slideUp();
+				$(this).html('<i class="fas fa-angle-down"></i> Cargar mas comentarios');
+				$(this).data('estado', 'min');
+			} else {
+				// $('.comentario-oculto-'+id_publicacion).removeClass('d-none');
+				$('.comentario-oculto-'+id_publicacion).show();//slideDown();
+				$(this).html('<i class="fas fa-angle-up"></i> Mostrar menos');
+				$(this).data('estado', 'max');
+			}
+		});
+
+				//NO VALE LA PENA HACERLO CON AJAX... 
+		// $('.e-btn-com').click(function(event) {
+		// 	let id_publicacion 			= $(this).data('id-publicacion');
+		// 	let id_usuario 				= $(this).data('id-usuario');
+		// 	let id_usuario_respuesta 	= $(this).data('id-usuario-respuesta');
+		// 	let id_comentario_respuesta = $(this).data('id-comentario-respuesta');
+		// 	let texto = (id_usuario_respuesta != undefined) ? $('#fc_respuesta_'+id_publicacion+'_'+id_comentario_respuesta+'_'+id_usuario_respuesta).val() : $('#fc_comentario_'+id_publicacion).val();
+
+		// 	$.ajax({
+		// 		url: 'index.php?controller=publicacion&action=comentar',
+		// 		type: 'POST',
+		// 		data: {
+		// 			fc_id_publicacion: id_publicacion,
+		// 			fc_id_usuario: id_usuario,
+		// 			fc_id_usuario_respuesta: id_usuario_respuesta,
+		// 			fc_texto: texto
+		// 		},
+		// 	})
+		// 	.done(function(data) { index.php?controller=usuario&action=perfil
+		// 		data = jQuery.parseJSON(data);
+		// 		console.log(data);
+		// 		$('#comentarios-dinamicos-'+id_publicacion).prepend(
+		// 			'<div class="col-12 e-card-comentario" id="com-'+data.id+'" style="">'+
+		// 		'<a href="index.php?controller=usuario&action=perfil'+data.id_usuario+'" class="e-com-userlink">'+
+		// 			'<img class="e-avatar" src="assets/img/avatares/'+data.usuario_avatar+'" alt="User Avatar" style="width: 25px; height: 25px; padding-bottom: 4px">'+
+		// 			'<strong> <?php echo $comentario['usuario']."-".$comentario['id_usuario']; ?></strong>'+
+		// 			'<strong> '+data.usuario+'</strong>'+
+		// 		'</a>'
+
+		// 			);
+		// 	});
+		// });
 	// FIN COMENTARIOS
 });
 

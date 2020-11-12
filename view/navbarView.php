@@ -38,7 +38,7 @@ if (!isset($_SESSION['id'])) {
 						 ?>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="<?php echo $helper->url('usuario', 'miPerfil'); ?>">Ir a mi perfil</a>
+						<a class="dropdown-item" href="<?php echo $helper->url('usuario', 'perfil').'&id_usuario='.$_SESSION['id']; ?>">Ir a mi perfil</a>
 						<!-- <div class="dropdown-divider"></div> -->
 						<a class="dropdown-item" href="<?php echo $helper->url('usuario', 'cerrarSesion'); ?>">Cerrar sesión</a>
 					</div>

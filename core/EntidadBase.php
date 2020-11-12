@@ -64,7 +64,13 @@ class EntidadBase{
 
     public function insert($values){
     	// Obtener los nombres de las columnas de la tabla
-        $queryColumnas = $this->db()->query("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '".$this->table."'");
+        $queryColumnas = $this->db()->query("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '".$this->table."' 
+            AND COLUMN_NAME != 'fecha' 
+            AND COLUMN_NAME != 'hora' 
+            AND COLUMN_NAME != 'estado' 
+            AND COLUMN_NAME != 'admin' 
+            AND COLUMN_NAME != 'fecha_registro' 
+        "); // Omitir campos con valores Default
 
         // Armar la cadena de columnas
         $stringColumnas = "";

@@ -155,6 +155,12 @@ body{
 	.e-modal-close-btn{
 		color: white;
 	}
+
+
+	.e-modal-body{
+		background: rgb(255,232,222);
+		background: linear-gradient(0deg, rgba(255,232,222,1) 0%, rgba(255,255,255,1) 100%);
+	}
 /* FIN MODALES */
 
 /* CARDS */
@@ -340,6 +346,11 @@ body{
 .e-avatar{
 	max-width: 100%;
 	height: auto;
+
+}
+
+.e-avatar-btn{
+	padding: 0px;
 }
 .e-avatar-btn:focus{
 	box-shadow: 0px 0px 6px 2px rgba(255,141,79,1);

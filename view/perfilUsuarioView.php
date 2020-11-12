@@ -6,7 +6,7 @@
 				<h5 class="modal-title">Agregar un vehiculo</h5>
 			</div>
 			<form action="<?php echo $helper->url("usuario","crearVehiculo"); ?>" method="post">
-				<div class="modal-body">
+				<div class="modal-body e-modal-body">
 					<div class="form-row">
 						<div class="col-12 col-sm-6">
 							<div class="form-group">
@@ -41,11 +41,11 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="modal-footer" style="padding-top: 0px; border-width: 0px;">
-					<div class="col-12" style="padding: 0px;">
-						<button type="submit" class="btn btn-sm float-right e-card-btn e-right-btn"><i class="fas fa-check-circle"></i> Confirmar</button>
-						<button type="button" class="btn btn-sm float-right e-card-btn e-left-btn" data-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
+					<div class="form-row">
+						<div class="col-12" style="">
+							<button type="submit" class="btn btn-sm float-right e-card-btn e-right-btn"><i class="fas fa-check-circle"></i> Confirmar</button>
+							<button type="button" class="btn btn-sm float-right e-card-btn e-left-btn" data-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
+						</div>
 					</div>
 				</div>
 			</form>
@@ -61,10 +61,10 @@
 				<h5 class="w-100 text-center">¿Seguro que desea eliminar el vehiculo?</h5>
 			</div>
 			<form action="<?php echo $helper->url('usuario', 'eliminarVehiculo'); ?>" method="post">
-				<div class="modal-body text-center">
+				<div class="modal-body text-center  e-modal-body">
 					<p>Se eliminará el vehiculo <span id="vehiculo-marca"></span> <span id="vehiculo-modelo"></span> (<span id="vehiculo-patente"></span>) de su perfil.</p>
-				</div>
-				<div class="modal-footer" style="padding-top: 0px; border-width: 0px;">
+				<!-- </div> -->
+				<!-- <div class="modal-footer" style="padding-top: 0px; border-width: 0px;"> -->
 					<div class="col-12 d-flex justify-content-center" style="padding: 0px;">
 						<input type="hidden" id="id_vehiculo" name="id_vehiculo">
 						<button type="button" class="btn btn-sm e-card-btn e-left-btn" data-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
@@ -88,14 +88,14 @@
 					<p>Seleccione un avatar para asignarlo a su perfil.</p>
 					<div class="row">
 					<?php for ($i = 1; $i <= 48; $i++) { 
-						if ("av (".$i.")" == $_SESSION['avatar']){
+						if ("av (".$i.")" != $usuario->avatar){
 					?>
 						<div class="col-3" style="padding: 5px;">
-							<button  type="button" id="btn-avatar-<?php echo $i; ?>" class="btn e-avatar-btn av-btn focus active"><img src="assets/img/avatares/av (<?php echo $i; ?>).png" style="max-width: 100%"></button>
+							<button type="button" id="btn-avatar-<?php echo $i; ?>" class="btn e-avatar-btn av-btn"><img src="assets/img/avatares/av (<?php echo $i; ?>).png" style="max-width: 100%"></button>
 						</div>
 					<?php } else { ?>
 						<div class="col-3" style="padding: 5px;">
-							<button type="button" id="btn-avatar-<?php echo $i; ?>" class="btn e-avatar-btn av-btn"><img src="assets/img/avatares/av (<?php echo $i; ?>).png" style="max-width: 100%"></button>
+							<button  type="button" id="btn-avatar-<?php echo $i; ?>" class="btn e-avatar-btn av-btn focus active"><img src="assets/img/avatares/av (<?php echo $i; ?>).png" style="max-width: 100%"></button>
 						</div>
 					<?php }} ?>
 				</div>
@@ -115,13 +115,21 @@
 <!-- CARD USUARIO -->
 <div class="card e-card">
 	<div class="card-header e-card-header">
+		<?php if ($usuario->id == $_SESSION['id']) { ?>
 		<h4 class="float-left" style="padding-left: 8px"><?php echo $_SESSION['nombre']." ".$_SESSION['apellido']; ?> </h4>
+		<?php } else { ?>
+		<h4 class="float-left" style="padding-left: 8px"><?php echo $usuario->nombre." ".$usuario->apellido; ?> </h4>
+		<?php } ?>
 	</div>
 	<div class="" id="post-body-1">
 		<div class="card-body e-card-body" style="padding: 10px;">
 			<div class="row">
 				<div class="col-5 col-sm-4 col-md-3 col-lg-2" style="padding-left: 10px;">
+					<?php if ($usuario->id == $_SESSION['id']) { ?>
 					<button type="button" class="btn e-avatar-btn" data-toggle="modal" data-target="#modal-seleccion-avatar"><img class="e-avatar" src="assets/img/avatares/<?php echo $_SESSION['avatar']; ?>.png" alt="User Avatar"></button>
+					<?php } else { ?>
+					<img class="e-avatar" src="assets/img/avatares/<?php echo $usuario->avatar; ?>.png" alt="User Avatar">
+					<?php } ?>
 				</div>
 				<div class="col-7 col-sm-8 col-md-9 col-lg-10" style="padding-left: 0px">
 					<div class="h-100 w-100 d-flex align-items-center justify-content-center">
@@ -160,7 +168,13 @@
 <div class="card e-card">
 	<div class="card-header e-card-header">
 		<h5>
-			Administrar Vehiculos
+			<?php 
+			if ($usuario->id == $_SESSION['id']) {
+				echo 'Administrar Vehiculos';
+			} else {
+				echo 'Vehiculos del usuario';
+			}
+			?>
 		</h5>
 	</div>
 	<div class="" id="post-body-1">
@@ -172,13 +186,15 @@
 						<th scope="col">Tipo</th>
 						<th scope="col" class="d-none d-sm-table-cell">Marca</th>
 						<th scope="col" class="d-none d-sm-table-cell">Modelo</th>
+						<?php if ($usuario->id == $_SESSION['id']) { ?>
 						<th scope="col"><button type="button" class="btn btn-sm float-right e-card-btn" data-toggle="modal" data-target="#modal-alta-vehiculos"><i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Nuevo</span></button></th>
+						<?php } ?>
 					</tr>
 				</thead>
 				<tbody>
 					<?php 
 						$vehiculos = new VehiculoModel();
-						$vehiculos = $vehiculos->getBy("id_usuario", $_SESSION['id']);
+						$vehiculos = $vehiculos->getBy("id_usuario", $usuario->id);
 
 						if (isset($vehiculos)) {
 							foreach ($vehiculos as $key => $value) { 
@@ -188,6 +204,7 @@
 						<td><span class="badge badge-dark e-card-badge"><?php echo ucfirst($value->tipo) ?></span></td>
 						<td class="d-none d-sm-table-cell"><?php echo $value->marca ?></td>
 						<td class="d-none d-sm-table-cell"><?php echo $value->modelo ?></td>
+						<?php if ($usuario->id == $_SESSION['id']) { ?>
 						<td><button type="button" class="btn e-card-btn btn-sm float-right e-borrar-vehiculo-btn" data-toggle="modal" data-target="#modal-baja-vehiculo" 
 							data-patente="<?php echo $value->patente ?>"
 							data-marca="<?php echo $value->marca ?>"
@@ -196,6 +213,7 @@
 							data-id="<?php echo $value->id ?>">
 							<i class="fas fa-trash-alt"></i></button>
 						</td>
+						<?php } ?>
 					</tr>
 					<?php } } ?>
 				</tbody>

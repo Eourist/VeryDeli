@@ -12,12 +12,12 @@ class UsuarioController extends ControladorBase{
         $this->view("footer", "");
     }
 
-    public function miPerfil(){
+    public function perfil(){
         session_start();
         $usuario = new UsuarioModel();
         //$envios = new EnvioModel();
 
-        $usuario        = $usuario->getById($_SESSION['id']);
+        $usuario        = $usuario->getById($_GET['id_usuario']);
         $enviosTotales  = 10;//$envios->getBy('id_usuario', $usuario->id);
         $solicitudes    = 2;//$envios->getSolicitudesUsuario($usuario->id);
         $translados     = 3;//$envios->getTransladosUsuario($usuario->id);
@@ -150,11 +150,11 @@ class UsuarioController extends ControladorBase{
     		$_SESSION['avatar'] = $usuario->getAvatar();
 	    	// Cambio de avatar exitoso
 	    	$_SESSION['log'] = "Cambio de avatar exitoso";
-	    	$this->redirect("usuario", "miPerfil");
+	    	$this->redirect("usuario", "perfil", '&id_usuario='.$_SESSION['id']);
     	} else {
             // Error: No se pudo cambiar el avatar
             $_SESSION['alerta'] = "Error: No se pudo cambiar el avatar - ".Conectar::$con->error;
-            $this->redirect("usuario", "miPerfil");
+            $this->redirect("usuario", "perfil", '&id_usuario='.$_SESSION['id']);
     	}
     }
 
@@ -180,22 +180,22 @@ class UsuarioController extends ControladorBase{
 		if (sizeof($vehiculo->getBy("id_usuario", $_SESSION['id'])) > 4){
 	    	// Error: El usuario ya tiene demasiados vehiculos
     		$_SESSION['alerta'] = "Error: El usuario ya tiene demasiados vehiculos";
-    		$this->redirect('usuario', 'miPerfil');
+    		$this->redirect('usuario', 'perfil', '&id_usuario='.$_SESSION['id']);
     	} else if ($vehiculo->getBy("patente", $vehiculo->getPatente())){
     		// Error: Ya existe un vehiculo con esa patente
     		$_SESSION['alerta'] = "Error: Ya existe un vehiculo con esa patente";
-    		$this->redirect('usuario', 'miPerfil');
+    		$this->redirect('usuario', 'perfil', '&id_usuario='.$_SESSION['id']);
     	} else {
     		//$alta = $vehiculo->alta();
     		$alta = $vehiculo->insert($data); // EJEMPLO DE ALTA USANDO EntidadBase->insert
     		if ($alta){
     			// Alta exitosa
     			$_SESSION['log'] = "Alta de vehiculo exitosa";
-    			$this->redirect('usuario', 'miPerfil');
+    			$this->redirect('usuario', 'perfil', '&id_usuario='.$_SESSION['id']);
     		} else {
 	    		// Error: No se pudo crear el vehiculo
     			$_SESSION['alerta'] = "Error: No se pudo crear el vehiculo - ".Conectar::$con->error;
-    			$this->redirect('usuario', 'miPerfil');
+    			$this->redirect('usuario', 'perfil', '&id_usuario='.$_SESSION['id']);
 	    	}
     	}
     }
@@ -213,16 +213,16 @@ class UsuarioController extends ControladorBase{
     		if ($baja){
 	    		// Eliminación exitosa
     			$_SESSION['log'] = "Eliminación de vehiculo exitosa";
-    			$this->redirect('usuario', 'miPerfil');
+    			$this->redirect('usuario', 'perfil', '&id_usuario='.$_SESSION['id']);
     		} else {
 		    	// Error: No se pudo eliminar el vehiculo
     			$_SESSION['alerta'] = "Error: No se pudo eliminar el vehiculo - ".Conectar::$con->error;
-    			$this->redirect('usuario', 'miPerfil');
+    			$this->redirect('usuario', 'perfil', '&id_usuario='.$_SESSION['id']);
     		}
     	} else {
 	    	// Error: Falló la eliminación del vehiculo porque no pertenece al usuario logueado
     		$_SESSION['alerta'] = "Error: Falló la eliminación del vehiculo porque no pertenece al usuario logueado";
-    		$this->redirect('usuario', 'miPerfil');
+    		$this->redirect('usuario', 'perfil', '&id_usuario='.$_SESSION['id']);
     	}
     }
 

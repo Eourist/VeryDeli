@@ -14,6 +14,11 @@
 	<link rel="stylesheet" href="assets/css/font.css">
 	
 	<link rel="shortcut icon" href="assets/img/logo1.png">
+
+	<!-- <script src="assets/js/jquery-3.5.1.js"></script>
+	<script src="assets/js/bootstrap.bundle.js"></script>
+	<script src="assets/js/jquery.validate.js"></script>
+	<script src="assets/js/verydeli.js"></script> -->
 	
 	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> -->
 	<title>VeryDeli</title>
