@@ -14,7 +14,7 @@
 	public function inicio(){
 		session_start();
 		$publicaciones = new PublicacionModel();
-		$publicaciones = $publicaciones->getAll();
+		$publicaciones = $publicaciones->getAllActivas();
 
 		$direccionModel 	= new DireccionModel();
 		$ciudadModel 		= new CiudadModel();
@@ -116,7 +116,7 @@
 		$postulacionModel 	= new PostulacionModel();
 		// echo $_POST['fb_tipo_vehiculo']; exit();
 
-		$where = "WHERE publicacion.estado = 0";
+		$where = "WHERE publicacion.estado != 2 ";
 		$where .= (!empty($_POST['fb_titulo'])) 		? " AND publicacion.titulo LIKE '%"			.$_POST['fb_titulo']."%'" 		: "";
 		$where .= (!empty($_POST['fb_fecha_salida'])) 	? " AND publicacion.fecha_salida = DATE('"		.$_POST['fb_fecha_salida']."')" 	: "";
 		$where .= ($_POST['fb_tipo_vehiculo']!="") 		? " AND publicacion.tipo_vehiculo = '"	.$_POST['fb_tipo_vehiculo']."'" : "";
@@ -490,6 +490,7 @@
 	}
 
 	public function confirmarPostulante(){
+		session_start();
 		$envioModel = new EnvioModel();
 		$publicacionModel = new PublicacionModel();
 		$postulacionModel = new PostulacionModel();
@@ -503,7 +504,8 @@
 		if ($alta){
 			// Confirmacion exitosa
 			$_SESSION['log'] = "Confirmado el envio";
-			$this->redirect("Publicacion", "publicacion", "&id_publicacion=".$postulacionModel->getById($envioModel->getIdPostulacion())->id_publicacion);
+			$this->redirect('usuario', 'perfil', '&id_usuario='.$_SESSION['id']);
+			//$this->redirect("Publicacion", "publicacion", "&id_publicacion=".$postulacionModel->getById($envioModel->getIdPostulacion())->id_publicacion);
 		} else {
 	    	// Error: Falló la confirmación
 			$_SESSION['alerta'] = "Error: Falló la confirmación - ".Conectar::$con->error;
@@ -525,6 +527,7 @@
 		$publicacionModel = new PublicacionModel();
 		$id = $_POST['fe_id_publicacion'];
 
+		$publicacionModel->desactivarPostulacionesPublicacion($id);
 		$publicacionModel->cambiarEstado($id, 2);
 
 		$this->redirect('usuario', 'perfil', "&id_usuario=".$_SESSION['id']);

@@ -15,6 +15,9 @@ class UsuarioController extends ControladorBase{
     public function perfil(){
         session_start();
         $usuarioModel = new UsuarioModel();
+        $direccionModel = new DireccionModel();
+        $provinciaModel = new ProvinciaModel();
+        $ciudadModel = new CiudadModel();
         //$envios = new EnvioModel();
 
         $usuario        = $usuarioModel->getById($_GET['id_usuario']);
@@ -31,6 +34,17 @@ class UsuarioController extends ControladorBase{
         $postulaciones  = (array)$usuarioModel->getPostulaciones($usuario->id);
         $solicitudes    = (array)$usuarioModel->getSolicitudes($usuario->id);
         $transportes    = (array)$usuarioModel->getTransportes($usuario->id);
+        foreach ($publicaciones as $i => $value) {
+            $dir_o = $direccionModel->getById($publicaciones[$i]['id_direccion_origen']);
+
+            $publicaciones[$i]['provincia_origen'] = $provinciaModel->getById($dir_o->id_provincia)->nombre;
+            $publicaciones[$i]['ciudad_origen'] = $ciudadModel->getById($dir_o->id_ciudad)->nombre;
+
+            $dir_d = $direccionModel->getById($publicaciones[$i]['id_direccion_destino']);
+
+            $publicaciones[$i]['provincia_destino'] = $provinciaModel->getById($dir_d->id_provincia)->nombre;
+            $publicaciones[$i]['ciudad_destino'] = $ciudadModel->getById($dir_d->id_ciudad)->nombre;
+        } 
 
         $datos['postulacion_activa'] = $usuarioModel->getPostulacionActiva($_SESSION['id'])['id'];
 
@@ -42,7 +56,7 @@ class UsuarioController extends ControladorBase{
             'postulaciones'             => $postulaciones,
             'datos'                     => $datos
         );
-
+        //echo '<pre>'; print_r($data); exit();
 
 		$this->view("header", "");
 		$this->view("navbar", "");

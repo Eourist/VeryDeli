@@ -26,6 +26,17 @@ class EntidadBase{
         return (isset($resultSet)) ? $resultSet : NULL;
     }
     
+    public function getAllActivas(){
+     
+        $query=$this->db()->query("SELECT * FROM $this->table WHERE estado = 0 ORDER BY id DESC");
+
+        while ($row = $query->fetch_object()) {
+           $resultSet[] = $row;
+        }
+        
+        return (isset($resultSet)) ? $resultSet : NULL;
+    }
+    
     public function getById($id){
         $query = $this->db()->query("SELECT * FROM $this->table WHERE id=$id");
 

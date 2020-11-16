@@ -156,6 +156,11 @@
         return $this->db()->query($query);
     }
 
+    public function desactivarPostulacionesPublicacion($id_publicacion){
+        $query = "UPDATE vd_publicaciones_postulaciones SET estado = 2 WHERE vd_publicaciones_postulaciones.id_publicacion = $id_publicacion";
+        return $this->db()->query($query);
+    }
+
     public function getPublicacionesFiltro($filtro){
         $query =   "SELECT DISTINCT publicacion.*
                     FROM vd_publicaciones publicacion 

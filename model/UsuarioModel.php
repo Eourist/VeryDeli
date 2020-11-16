@@ -167,7 +167,9 @@ class UsuarioModel extends EntidadBase{
     }
 
     public function getPublicaciones($id_usuario){
-        $query=$this->db()->query("SELECT vd_publicaciones.* FROM vd_publicaciones WHERE id_usuario = $id_usuario AND vd_publicaciones.estado != 2 ORDER BY vd_publicaciones.id DESC");
+        $query=$this->db()->query(" SELECT vd_publicaciones.* 
+                                    FROM vd_publicaciones 
+                                    WHERE id_usuario = $id_usuario AND vd_publicaciones.estado != 2 ORDER BY vd_publicaciones.id DESC");
 
         while($row = $query->fetch_object())
             $resultSet[] = (array)$row;
@@ -176,7 +178,7 @@ class UsuarioModel extends EntidadBase{
     }
 
     public function getPostulaciones($id_usuario){
-        $query=$this->db()->query("SELECT vd_publicaciones.*, vd_publicaciones_postulaciones.id as id_postulacion FROM vd_publicaciones JOIN vd_publicaciones_postulaciones ON vd_publicaciones_postulaciones.id_publicacion = vd_publicaciones.id WHERE vd_publicaciones_postulaciones.id_usuario = $id_usuario AND vd_publicaciones_postulaciones.estado != 2 ORDER BY vd_publicaciones_postulaciones.id DESC");
+        $query=$this->db()->query("SELECT vd_publicaciones.*, vd_publicaciones_postulaciones.id as id_postulacion, vd_publicaciones_postulaciones.precio as precio  FROM vd_publicaciones JOIN vd_publicaciones_postulaciones ON vd_publicaciones_postulaciones.id_publicacion = vd_publicaciones.id WHERE vd_publicaciones_postulaciones.id_usuario = $id_usuario AND vd_publicaciones_postulaciones.estado != 2 ORDER BY vd_publicaciones_postulaciones.id DESC");
 
         while($row = $query->fetch_object())
             $resultSet[] = (array)$row;

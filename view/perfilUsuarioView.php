@@ -321,8 +321,8 @@
 									data-target="#modal-postularse" 
 									data-toggle="modal"
 									data-id-publicacion="<?php echo $p['id']; ?>" 
-									data-desde="<?php echo $p['id_direccion_origen'];// $dir_o['provincia']." > ".$dir_o['ciudad']; ?>" 
-									data-hasta="<?php echo $p['id_direccion_destino'];// $dir_d['provincia']." > ".$dir_d['ciudad']; ?>" 
+									data-desde="<?php echo $p['provincia_origen']." > ".$p['ciudad_origen'];// $dir_o['provincia']." > ".$dir_o['ciudad']; ?>" 
+									data-hasta="<?php echo $p['provincia_destino']." > ".$p['ciudad_destino'];// $dir_d['provincia']." > ".$dir_d['ciudad']; ?>" 
 									data-salida="<?php echo date('d-m', strtotime($p['fecha_salida']))." a las ".date('H:i', strtotime($p['hora_salida']))." Hs"; ?>">
 								<i class="fas fa-handshake"></i> 
 								<span class="d-none d-md-inline">Postularse</span>
@@ -394,6 +394,7 @@
 								<i class="fas fa-trash-alt"></i>
 							</button>
 						<?php } ?>
+						<span style="float: right; margin-right: 10px;">$<?php echo $p['precio']; ?></span>
 						<h6 class="mb-0">
 							<?php if ($p['estado'] == 1) { ?>
 								<span class="badge e-card-badge badge-dark">Cerrada</span> 
