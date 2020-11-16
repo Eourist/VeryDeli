@@ -119,7 +119,7 @@
 				</div>
 				<div class="card-body e-card-body" style="padding: 10px; border-radius: 8px;">
 					<p class="text-center">Ingresa tus datos para iniciar sesión en VeryDeli.</p>
-					<form action="<?php echo $helper->url("usuario","iniciarSesion"); ?>" method="post">
+					<form action="<?php echo $helper->url("usuario","iniciarSesion"); ?>" id="form-inicio-sesion" method="post">
 						<div class="form-row">
 							<div class="col-6">
 								<div class="form-group">
@@ -127,7 +127,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text e-input-addon"><i class="fas fa-user"></i></i></span>
 										</div>
-										<input type="email" class="form-control e-input" id="fl_email" name="fl_email" placeholder="Email" required>
+										<input type="email" class="form-control e-input" id="fl_email" name="fl_email" placeholder="Email">
 									</div>
 								</div>
 							</div>
@@ -137,7 +137,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text e-input-addon"><i class="fas fa-key"></i></i></span>
 										</div>
-										<input type="password" class="form-control e-input" id="fl_contraseña" name="fl_contraseña" placeholder="Contraseña" required>
+										<input type="password" class="form-control e-input" id="fl_contraseña" name="fl_contraseña" placeholder="Contraseña">
 									</div>
 								</div>
 							</div>
@@ -160,7 +160,7 @@
 				</div>
 				<div class="card-body e-card-body" style="padding: 10px; border-radius: 8px;">
 					<p class="text-center">¡Unite hoy a la comunidad de VeryDeli! <br> Es grátis, fácil y rápido.</p>
-					<form action="<?php echo $helper->url("usuario","registrarse"); ?>" method="post">
+					<form action="<?php echo $helper->url("usuario","registrarse"); ?>" method="post" id="form-registro">
 						<div class="form-row">
 							<div class="col-6">
 								<div class="form-group">
@@ -168,7 +168,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text e-input-addon"><i class="fas fa-user"></i></i></span>
 										</div>
-										<input type="text" class="form-control e-input" id="fs_nombre" name="fs_nombre" placeholder="Nombre" required>
+										<input type="text" class="form-control e-input" id="fs_nombre" name="fs_nombre" placeholder="Nombre">
 									</div>
 								</div>
 							</div>
@@ -178,7 +178,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text e-input-addon"><i class="fas fa-user-tag"></i></i></span>
 										</div>
-										<input type="text" class="form-control e-input" id="fs_apellido" name="fs_apellido" placeholder="Apellido" required>
+										<input type="text" class="form-control e-input" id="fs_apellido" name="fs_apellido" placeholder="Apellido">
 									</div>
 								</div>
 							</div>
@@ -190,7 +190,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text e-input-addon"><i class="fas fa-at"></i></span>
 										</div>
-										<input type="email" class="form-control e-input" id="fs_email" name="fs_email" placeholder="Correo electrónico" required>
+										<input type="email" class="form-control e-input" id="fs_email" name="fs_email" placeholder="Correo electrónico">
 									</div>
 								</div>
 							</div>
@@ -200,7 +200,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text e-input-addon"><i class="fas fa-id-card"></i></span>
 										</div>
-										<input type="number" class="form-control e-input" id="fs_dni" name="fs_dni" placeholder="DNI" required>
+										<input type="number" class="form-control e-input" id="fs_dni" name="fs_dni" placeholder="DNI">
 									</div>
 								</div>
 							</div>
@@ -212,7 +212,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text e-input-addon"><i class="fas fa-key"></i></span>
 										</div>
-										<input type="password" class="form-control e-input" id="fs_contraseña" name="fs_contraseña" placeholder="Contraseña" required>
+										<input type="password" class="form-control e-input" id="fs_contraseña" name="fs_contraseña" placeholder="Contraseña">
 										<button class="btn e-card-btn float-right e-right-btn"><i class="fas fa-eye"></i></button>
 									</div>
 								</div>
@@ -226,8 +226,12 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<script src="assets/js/popper.min.js"></script>
 	<script src="assets/js/jquery-3.5.1.js"></script>
+	<script src="assets/js/bootstrap.bundle.js"></script>
+	<script src="assets/js/jquery.validate.js"></script>
+	<script src="assets/js/verydeli.js"></script>
 	<script>
 		// animate__backOutLeft animate__backInRight
 		jQuery(document).ready(function($) {

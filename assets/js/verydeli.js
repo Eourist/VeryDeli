@@ -1,4 +1,8 @@
 jQuery(document).ready(function($) {
+	$(function(){
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+
 	// INPUT DE BUSQUEDA EN LA NAVBAR
 		let navSearchInput = $('#nav-search-input');
 		let navSearchLink = $('#nav-search-btn');
@@ -42,6 +46,19 @@ jQuery(document).ready(function($) {
 		$('#id_vehiculo').val(id);
 		console.log("Quiere borrar el vehiculo " + id);
 	});
+	
+	// CARGAR DATOS DE LA POSTULACION EN EL MODAL DE ELIMINACION
+	$('.e-borrar-postulacion-btn').click(function(event) {
+		let id 	= $(this).data('id');
+
+		$('#fe_id_postulacion').val(id);
+	});
+	
+	// CARGAR DATOS DE LA PUBLICACION EN EL MODAL DE ELIMINACION
+	$('.e-borrar-publicacion-btn').click(function(event) {
+			let id 	= $(this).data('id');console.log("eliminar publicacion " + id);
+		$('#fe_id_publicacion').val(id);
+	});
 
 	// SELECCIONAR UN AVATAR EN EL PERFIL
 	$('.av-btn').click(function(event) {
@@ -68,7 +85,7 @@ jQuery(document).ready(function($) {
 			if(data.cantidad > 0){
 				$('#e-mp-info').html('Actualmente hay <strong>'+data.cantidad+'</strong> usuarios postulados <br> Por un precio mínimo de <strong>$'+data.precio_minimo+'</strong>');
 			} else {
-				$('#e-mp-info').html('Actualmente no hay nadie postulado en esta publicación');
+				$('#e-mp-info').html('<p>Actualmente no hay nadie postulado en esta publicación</p>');
 			}
 			$('#e-mp-desde').html(desde);
 			$('#e-mp-hasta').html(hasta);
@@ -92,20 +109,83 @@ jQuery(document).ready(function($) {
 			data = jQuery.parseJSON(data);
 			console.log("id publicacion: " + id_publicacion);
 			console.log(data);
-			if(data != null){
+			if(data.datos.cantidad > 0){
 				let html = "";
-				data.forEach(function(item, index){
-					html += item.id_postulacion + " <br> ";
+				data.postulantes.forEach(function(item, index){
+					let responsable = "Responsable";
+					// html += item.id_postulacion + " <br> ";
+					/*
+
+					<div class="e-postulacion w-100">
+						<div class="col-12 pl-0 pr-0">
+							<span class="badge badge-dark e-card-badge">Responsable </span> <a href="index.php?controller=usuario&action=perfil&id_usuario=4" class="e-com-userlink"><img src="assets/img/avatares/av (1).png" class="e-av-postulante"> Usuario</a>
+							<span style="float: right;">$2300 <button type="button" class="btn e-card-btn e-postulante-btn"><i class="fas fa-handshake"></i></button></span>
+						</div>
+						<div class="col-12 pl-0 mt-2">
+							<p style="margin-bottom: 0px"><span class="badge badge-dark e-card-badge">Camioneta</span> Ford Eco-Sport 2015</p>
+						</div>
+					</div>
+					
+					*/
+					html += '<div class="e-postulacion w-100">';
+					html += 	'<div class="col-12 pl-0 pr-0">';
+					html += 		'<span class="badge badge-dark e-card-badge">'+responsable+'</span> <a href="index.php?controller=usuario&action=perfil&id_usuario='+item.id_usuario+'" class="e-com-userlink"><img src="assets/img/avatares/'+item.avatar_usuario+'.png" class="e-av-postulante"> '+item.nombre_usuario+'</a>';
+					html += 		'<span style="float: right;">$'+item.precio_postulacion+' ';
+					html +=				'<button type="button" data-toggle="modal" data-target="#modal-confirmacion" class="btn e-card-btn e-postulante-btn" data-id-usuario="'+item.id_usuario+'" data-usuario="'+item.nombre_usuario+'" data-id-postulacion="'+item.id_postulacion+'" data-avatar="'+item.avatar_usuario+'">';
+					html +=					'<i class="fas fa-handshake"></i>';
+					html +=				'</button>';
+					html +=			'</span>';
+					html +=		'</div>';
+					html +=		'<div class="col-12 pl-0 mt-2">';
+					html +=			'<p style="margin-bottom: 0px"><span class="badge badge-dark e-card-badge">'+item.tipo_vehiculo.charAt(0).toUpperCase() + item.tipo_vehiculo.slice(1)+'</span> '+item.marca_vehiculo + ' ' + item.modelo_vehiculo + '</p>';
+					html +=		'</div>';
+					html +=	'</div>';
 				});
-				$('#e-mp-listado').html(html);
+				$('#e-mpo-listado').html(html);
+				$('#e-mpo-info').html('Actualmente hay <strong id="e-mpo-postulaciones">'+data.datos.cantidad+'</strong> usuarios postulados <br> Por un precio mínimo de <strong id="e-mpo-precio">$'+data.datos.precio_minimo+'</strong>');
 			} else {
-				$('#e-mp-listado').html('Actualmente no hay nadie postulado en esta publicación');
+				$('#e-mpo-listado').html('');
+				$('#e-mpo-info').html('Actualmente no hay ningun usuario postulado.');
 			}
 		});
+
+		$('#e-mpo-listado').on('click', '.e-postulante-btn', function(event) {
+			let nombre_usuario 	= $(this).data('usuario');
+			let id_usuario 		= $(this).data('id-usuario');
+			let avatar_usuario 	= $(this).data('avatar');
+			let id_postulacion 	= $(this).data('id-postulacion');
+
+			console.log("Usuario " + nombre_usuario);
+			console.log("Avatar " + avatar_usuario);
+			console.log("Post " + id_postulacion);
+
+			$('#fcp_id_postulacion').val(id_postulacion);
+			$('#e-mcp-info').html('<h6 class="text-center">¿Estas seguro de que quieres aceptar al postulante <a href="index.php?controller=usuario&action=perfil&id_usuario='+id_usuario+'" class="e-com-userlink"><img src="assets/img/avatares/'+avatar_usuario+'.png" class="e-av-postulante" id="e-mcp-avatar"> <span id="e-mcp-usuario">'+nombre_usuario+'</span></a> para realizar el envío?</h6>')
+		});
+
+		// fcp_id_postulacion e-mcp-avatar e-mcp-usuario
+	});
+
+	// CARGAR DATOS DEL ENVIO EN EL MODAL DE CONFIRMACION
+	$('.e-btn-confirmacion-envio').click(function(event) {
+		let usuario = $(this).data('usuario');
+		let id_envio = $(this).data('id-envio');
+
+		if (usuario == "res"){
+			$('#e-mce-pregunta').html("¿Quiere marcar este envio como entregado? <br> Solo confirme si puede asegurar que el cliente recibió el paquete.");
+			$('#fce_confirmacion_responsable').val(1);
+			$('#fce_confirmacion_solicitante').val(0);
+		} else {
+			$('#e-mce-pregunta').html("¿Quiere marcar este envio como recibido? <br> Solo debe confirmar si ya tiene el paquete en sus manos.");
+			$('#fce_confirmacion_responsable').val(0);
+			$('#fce_confirmacion_solicitante').val(1);
+		}
+
+		$('#fce_id_envio').val(id_envio);
 	});
 
 
-	// SELECTS DE PROVINCIAS EN FORMULARIO DE ORDENES
+	// SELECTS DE PROVINCIAS EN FORMULARIO DE PUBLICACIONES
 		$('#fdd_provincia').change(function(event) {
 			let id_provincia = $(this).val();
 
@@ -141,9 +221,192 @@ jQuery(document).ready(function($) {
 				});
 			});
 		});
+
+		// FORUMULARIO DE BUSQUEDA
+		$('#fb_id_provincia').change(function(event) {
+			let id_provincia = $(this).val();
+
+			$.ajax({
+				url: 'index.php?controller=publicacion&action=getCiudades',
+				type: 'POST',
+				data: {id_provincia: id_provincia},
+			})
+			.done(function(data) {
+				data = jQuery.parseJSON(data);
+				$('#fb_id_ciudad').html('<option class="e-option" value="0" selecter>Cualquiera</option>');
+				
+				data.forEach(function(item, index){
+					$('#fb_id_ciudad').append('<option class="e-option" value="'+item.id+'">'+item.nombre+'</option>');
+				});
+			});
+		});
 	// FIN SELECTS DE PROVINCIAS EN FORMULARIO DE PUBLICACIONES
 
 	// VALIDACION DE FORMULARIOS
+		$('#form-inicio-sesion').validate({
+			rules: {
+				fl_email: {
+					email: true,
+					required: true
+				},
+				fl_contraseña: {
+					required: true
+				}
+			},
+			messages: {
+				fl_email: {
+					email: "E-mail inválido",
+					required: "Campo obligatorio"
+				},
+				fl_contraseña: {
+					required: "Campo obligatorio"
+				}
+			},
+			errorPlacement: function(error, element) {
+				error.insertAfter(element.parent());
+			}
+		});
+
+		$('#form-registro').validate({
+			rules: {
+				fs_nombre: {
+					required: true,
+					maxlength: 30
+				},
+				fs_apellido: {
+					required: true,
+					maxlength: 30
+				},
+				fs_email: {
+					email: true,
+					required: true,
+					maxlength: 30
+				},
+				fs_dni: {
+					digits: true,
+					number: true,
+					required: true,
+					minlength: 8,
+					maxlength: 8
+				},
+				fs_contraseña: {
+					required: true,
+					maxlength: 30
+				}
+			},
+			messages: {
+				fs_nombre: {
+					required: "Campo obligatorio",
+					maxlength: "Máximo 30 caracteres"
+				},
+				fs_apellido: {
+					required: "Campo obligatorio",
+					maxlength: "Máximo 30 caracteres"
+				},
+				fs_email: {
+					email: "E-mail inválido",
+					required: "Campo obligatorio",
+					maxlength: "Máximo 30 caracteres"
+				},
+				fs_dni: {
+					digits: "Solo dígitos",
+					number: "Solo dígitos",
+					required: "Campo obligatorio",
+					minlength: "Mínimo 8 dígitos",
+					maxlength: "Máximo 8 dígitos"			
+				},
+				fs_contraseña: {
+					required: "Campo obligatorio",
+					maxlength: "Máximo 30 caracteres"
+				}
+			},
+			errorPlacement: function(error, element) {
+				error.insertAfter(element.parent());
+			}
+		});
+
+		$('#form-alta-vehiculos').validate({
+			rules: {
+				fv_patente: {
+					required: true,
+					minlength: 7,
+					maxlength: 10
+				},
+				fv_marca: {
+					required: true,
+					minlength: 2,
+					maxlength: 20
+				},
+				fv_modelo: {
+					required: true,
+					minlength: 2,
+					maxlength: 20
+				}
+			},
+			messages: {
+				fv_patente: {
+					required: "Campo obligatorio",
+					minlength: "Mínimo 7 caracteres",
+					maxlength: "Máximo 8 caracteres"
+				},
+				fv_marca: {
+					required: "Campo obligatorio",
+					minlength: "Mínimo 2 caracteres",
+					maxlength: "Máximo 20 caracteres"
+				},
+				fv_modelo: {
+					required: "Campo obligatorio",
+					minlength: "Mínimo 2 caracteres",
+					maxlength: "Máximo 20 caracteres"
+				}
+			},
+			errorPlacement: function(error, element) {
+				error.insertAfter(element.parent());
+			}
+		});
+
+		$('#form-confirmacion-envio').validate({
+			rules: {
+				fce_comentario: {
+					maxlength: 50
+				}
+			},
+			messages: {
+				fce_comentario: {
+					maxlength: "Máximo 50 caracteres"
+				}
+			},
+			errorPlacement: function(error, element) {
+				error.insertAfter(element.parent());
+			}
+		});
+
+		$('#form-postulacion').validate({
+			rules: {
+				fp_precio: {
+					required: true,
+					number: true
+				},
+				fp_id_vehiculo: {
+					required: true
+				}
+			},
+			messages: {
+				fp_precio: {
+					required: "Campo obligatorio",
+					number: "Solo números"
+				},
+				fp_id_vehiculo: {
+					required: "Seleccione un vehiculo"
+				}
+			},
+			errorPlacement: function(error, element) {
+				error.insertAfter(element.parent());
+			}
+		});
+
+
+
 		$("#form-publicaciones").validate({
 			rules: {
 				fp_titulo: {

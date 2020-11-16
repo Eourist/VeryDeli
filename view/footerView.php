@@ -16,6 +16,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="assets/js/popper.min.js"></script>
 	<script src="assets/js/jquery-3.5.1.js"></script>
 	<script src="assets/js/bootstrap.bundle.js"></script>
 	<script src="assets/js/jquery.validate.js"></script>
@@ -53,5 +54,26 @@
 		// 	}
 		// });
 	</script>
+
+	<?php 
+	if (isset($_SESSION['alerta'])){
+		echo "<script> alert(\"".$_SESSION['alerta']."\"); </script>";
+		$_SESSION['alerta'] = NULL;
+	}
+	else
+		echo "<script> console.log('No hay alertas'); </script>";
+
+	if (isset($_SESSION['log'])){
+		echo "<script> console.log(\"".$_SESSION['log']."\"); </script>";
+		$_SESSION['log'] = NULL;
+	}
+	else
+		echo "<script> console.log('No hay mensajes'); </script>";
+	
+	if (isset($_SESSION['nombre']))
+		echo "<script> console.log('Usuario ' + '".$_SESSION['nombre']." - ".$_SESSION['id']."'); </script>";
+	else
+		echo "<script> console.log('No hay sesion iniciada'); </script>";
+	?>
 </body>
 </html>

@@ -14,31 +14,40 @@ class UsuarioController extends ControladorBase{
 
     public function perfil(){
         session_start();
-        $usuario = new UsuarioModel();
+        $usuarioModel = new UsuarioModel();
         //$envios = new EnvioModel();
 
-        $usuario        = $usuario->getById($_GET['id_usuario']);
-        $enviosTotales  = 10;//$envios->getBy('id_usuario', $usuario->id);
-        $solicitudes    = 2;//$envios->getSolicitudesUsuario($usuario->id);
-        $translados     = 3;//$envios->getTransladosUsuario($usuario->id);
-        $reputacion     = "Normal";//$envios->getReputacionUsuario($usuario->id);
+        $usuario        = $usuarioModel->getById($_GET['id_usuario']);
+        //$enviosTotales  = 10;//$envios->getBy('id_usuario', $usuario->id);
+        //$solicitudes    = 2;//$envios->getSolicitudesUsuario($usuario->id);
+        //$translados     = 3;//$envios->getTransladosUsuario($usuario->id);
+        //$reputacion     = "Normal";//$envios->getReputacionUsuario($usuario->id);
 
-        $valTranslados  = "70%";
-        $valSolicitudes = "39%";
+        //$valTranslados  = "70%";
+        //$valSolicitudes = "39%";
+
+        $datos          = (array)$usuarioModel->getDatosEnvios($usuario->id);
+        $publicaciones  = (array)$usuarioModel->getPublicaciones($usuario->id);
+        $postulaciones  = (array)$usuarioModel->getPostulaciones($usuario->id);
+        $solicitudes    = (array)$usuarioModel->getSolicitudes($usuario->id);
+        $transportes    = (array)$usuarioModel->getTransportes($usuario->id);
+
+        $datos['postulacion_activa'] = $usuarioModel->getPostulacionActiva($_SESSION['id'])['id'];
 
         $data = array(
-            'usuario'       => $usuario, 
-            'enviosTotales' => $enviosTotales, 
-            'solicitudes'   => $solicitudes, 
-            'valSolicitudes'=> $valSolicitudes,
-            'translados'    => $translados, 
-            'valTranslados' => $valTranslados,
-            'reputacion'    => $reputacion
+            'usuario'                   => $usuario, 
+            'solicitudes'               => $solicitudes, 
+            'transportes'               => $transportes, 
+            'publicaciones'             => $publicaciones,
+            'postulaciones'             => $postulaciones,
+            'datos'                     => $datos
         );
+
 
 		$this->view("header", "");
 		$this->view("navbar", "");
-		$this->view("perfilUsuario", $data);
+        $this->view("perfilUsuario", $data);
+        $this->view("publicaciones", $arrayName = array('datos' => $datos));
 		$this->view("footer", "");
 
 		// $u = new UsuarioModel();

@@ -23,23 +23,20 @@ if (!isset($_SESSION['id'])) {
 					<form class="form-inline my-2 my-lg-0 nav-link e-nav-form e-nav-link" id="nav-search-form">
 						<input class="form-control mr-2 mr-sm-2 e-input" style="display: none; width: 200px" type="text" placeholder="¿Qué está buscando?" aria-label="Buscar" id="nav-search-input">
 						<a href="#" class="nav-link" id="nav-search-btn" style=""><i class="fas fa-search float-right"></i></a>
-					</form>
+					</form> 
+				</li>
+				<li class="nav-item h-100">
+					<a class="nav-link e-nav-link" href="<?php echo $helper->url('publicacion', 'buscarPublicaciones'); ?>">Buscar</a>
 				</li>
 				<li class="nav-item h-100">
 					<a class="nav-link e-nav-link" href="<?php echo $helper->url('publicacion', 'nuevaPublicacion'); ?>">Publicar</a>
 				</li>
 				<li class="nav-item dropdown h-100">
 					<a class="nav-link dropdown-toggle e-nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<?php 
-						if (isset($_SESSION['nombre']))
-							echo $_SESSION['nombre'];
-						else
-							echo "Mi Perfil";
-						 ?>
+						<?php if (isset($_SESSION['nombre'])) echo $_SESSION['nombre']; else echo "Mi Perfil"; ?>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" href="<?php echo $helper->url('usuario', 'perfil').'&id_usuario='.$_SESSION['id']; ?>">Ir a mi perfil</a>
-						<!-- <div class="dropdown-divider"></div> -->
 						<a class="dropdown-item" href="<?php echo $helper->url('usuario', 'cerrarSesion'); ?>">Cerrar sesión</a>
 					</div>
 				</li>
@@ -51,5 +48,5 @@ if (!isset($_SESSION['id'])) {
 	<p>Sesión iniciada correctamente</p>
 </div> -->
 
-<div class="container" id="e-main-container" style="background-color: #505050; min-height: 100vh; padding-bottom: 70px;">
+<div class="container" id="e-main-container" style="background-color: rgba(50,50,50,0.8); min-height: 100vh; padding-bottom: 70px;">
 	<div style="width: 100%; height: 85px;"></div>

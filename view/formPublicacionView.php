@@ -1,4 +1,11 @@
 <div class="card e-card">
+	<div class="card-body e-card-body text-center" style="border-radius: 4px; padding: 10px; user-select: none">
+		<p class="mb-0">Los usuarios nuevos en VeryDeli o con mala reputación tienen un limite semanal de 3 publicaciones.</p>
+		<?php echo "Tu reputación actual es ".$datos['reputacion'].(($datos['reputacion'] == 'Buena' || $datos['reputacion'] == 'Excelente') ? ", por lo que podes crear tantas publicaciones como quieras." : ", y todavía podes crear ".$datos['publicaciones_disponibles']." publicaciones más esta semana."); ?>
+	</div>
+</div>
+
+<div class="card e-card">
 	<div class="card-header e-card-header">
 		<h5>Nueva publicación</h5>
 	</div>
@@ -329,8 +336,11 @@
 			
 			<!-- <div class="e-form-panel"> -->
 				<div class="form-row" style="/*padding-right: 10px; margin-top: 15px; margin-bottom: 10px;*/">
-					<div class="col-12">
-						<button type="submit" class="btn e-card-btn float-right"><i class="fas fa-check-circle"></i> Confirmar</button>
+					<div class="col-10">
+						<?php if ($datos['publicaciones_disponibles'] <= 0) { echo 'Alcanzaste el límite de publicaciones semanales. No podrás publicar hasta la próxima semana.'; } ?>
+					</div>
+					<div class="col-2">
+						<button type="submit" class="btn e-card-btn float-right" <?php if ($datos['publicaciones_disponibles'] <= 0) { echo 'disabled'; } ?>><i class="fas fa-check-circle"></i> Confirmar</button>
 					</div>
 				</div>
 			<!-- </div> -->

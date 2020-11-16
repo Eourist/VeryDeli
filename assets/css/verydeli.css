@@ -15,7 +15,7 @@ body{
 
 	.e-navbar{
 		padding: 0px !important;
-		height: 70px;
+		/*height: 70px;*/
 		background-color: #313131;
 		position: fixed;
 		width: 100%;
@@ -25,12 +25,14 @@ body{
 	}
 	.e-nav-logo{
 		/*margin: 15px;*/
+		padding: 9px 0px;
 	}
 	.e-nav-menu{
 		height: 100% !important;
 	}
 	.e-nav-link{
 		height: 100%;
+		height: 70px;
 		display:flex;
 		justify-content:center;
 		align-items:center;
@@ -161,9 +163,43 @@ body{
 		background: rgb(255,232,222);
 		background: linear-gradient(0deg, rgba(255,232,222,1) 0%, rgba(255,255,255,1) 100%);
 	}
+
+	.e-postulacion{
+		margin-top: 15px;
+		padding: 8px;
+		border-radius: 4px;
+		background-color: white;
+		border: 0.5px solid #ff8d4f;
+	}
+	.e-av-postulante{
+		width: 25px; 
+		height: 25px; 
+		padding-bottom: 4px
+	}
+	.e-postulante-btn{
+		margin-top: -8px;
+		margin-right: -8px; 
+		border-radius: 0px 0px 0px 4px !important;
+	}
 /* FIN MODALES */
 
 /* CARDS */
+	.e-btn-confirmacion-envio{
+		margin-top: -9px !important; 
+		margin-right: -9px !important;
+		border-radius: 0px 4px 0px 4px !important;
+	}
+
+	.e-card-historial{
+		width: 100%;
+		margin-top: 15px;
+		border-radius: 4px;
+		background-color: white;
+		border: 0.5px solid #ff8d4f;
+		padding: 8px;
+		padding-bottom: 0px;
+	}
+
 	.e-card-comentario{
 		margin-top: 15px;
 		border-radius: 4px;
@@ -214,7 +250,7 @@ body{
 		border-width: 0px;
 
 		background: rgb(255,169,0);
-		background: linear-gradient(90deg, rgba(255,169,0,.7) 0%, rgba(255,49,0,.7) 100%);
+		background: linear-gradient(90deg, rgba(255,169,0,.65) 0%, rgba(255,49,0,.65) 100%);
 	}
 	.e-com-mostrar-mas:hover{
 		color: white;
@@ -265,6 +301,7 @@ body{
 		padding: 7px;
 		width: 100px;
 		background-color: #ff8d4f;
+		user-select: none;
 	}
 
 	.e-divider{
@@ -283,10 +320,16 @@ body{
 		padding: 5px 9px 5px 9px;
 		border-radius: 6px;
 		border-width: 3px;
+
 		background: #ff8d4f;
 		border-color: #ff8d4f;
 		color: white;
 		transition: .3s;
+
+
+		/*background-color: transparent;
+		border-color:  #ff8d4f;
+		color: #ff8d4f;*/
 	}
 	.e-card-btn:hover{
 		background: #ff7c40;
@@ -310,6 +353,37 @@ body{
 		box-shadow: none;
 		outline: none;
 	}
+	/*.e-card-btn{
+		height: 38px;
+		padding: 5px 9px 5px 9px;
+		border-radius: 6px;
+		border-width: 3px;
+		background: #ff8d4f;
+		border-color: #ff8d4f;
+		color: white;
+		transition: .3s;
+	}
+	.e-card-btn:hover{
+		background: #ff7c40;
+		border-color: #ff7c40;
+		color: white;
+		transition: .3s;
+	}
+	.e-card-btn:active{
+		box-shadow: none;
+		outline: none;
+		color: #ff8d4f;
+		transition: .3s;
+	}
+	.e-card-btn:focus{
+		background: none;
+		border-color: #ff8d4f;
+		color: #ff8d4f;
+		transition: .3s;
+
+		box-shadow: none;
+		outline: none;
+	}*/
 	.e-right-btn{
 		border-radius: 0px;
 		border-top-right-radius: 6px;
@@ -342,6 +416,11 @@ body{
 		border-width: 1px;
 	}
 /* FIN TABLAS */
+
+.modal-open {
+  overflow: inherit;
+  padding-right: 0 !important;
+}
 
 .e-avatar{
 	max-width: 100%;

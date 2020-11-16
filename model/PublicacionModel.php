@@ -12,6 +12,7 @@
     private $medida_alto;
     private $medida_profundo;
     private $descripcion;
+    private $estado;
     
     public function __construct() {
         $table="vd_publicaciones";
@@ -120,5 +121,52 @@
 
     public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
+    }
+    
+    public function getEstado() {
+        return $this->estado;
+    }
+
+    public function setEstado($estado) {
+        $this->estado = $estado;
+    }
+
+    public function modificacion(){
+        $query= "UPDATE vd_publicaciones SET 
+            id_usuario              = '$this->id_usuario', 
+            id_direccion_origen     = '$this->id_direccion_origen', 
+            id_direccion_destino    = '$this->id_direccion_destino', 
+            tipo_vehiculo           = '$this->tipo_vehiculo', 
+            titulo                  = '$this->titulo', 
+            fecha_salida            = '$this->fecha_salida', 
+            hora_salida             = '$this->hora_salida', 
+            peso                    = '$this->peso', 
+            medida_alto             = '$this->medida_alto', 
+            medida_largo            = '$this->medida_largo', 
+            medida_ancho            = '$this->medida_ancho', 
+            descripcion             = '$this->descripcion', 
+            fecha                   = '$this->fecha', 
+            estado                  = '$this->estado' 
+            WHERE id = $this->id";
+        return $this->db()->query($query);
+    }
+
+    public function cambiarEstado($id_publicacion, $estado){
+        $query= "UPDATE vd_publicaciones SET estado = '$estado' WHERE id = $id_publicacion";
+        return $this->db()->query($query);
+    }
+
+    public function getPublicacionesFiltro($filtro){
+        $query =   "SELECT DISTINCT publicacion.*
+                    FROM vd_publicaciones publicacion 
+                        JOIN vd_direcciones ubi ON publicacion.id_direccion_origen = ubi.id
+                                                OR publicacion.id_direccion_destino = ubi.id
+                    ".$filtro;
+        $query = $this->db()->query($query);
+
+        while($row = $query->fetch_object())
+           $resultSet[] = $row;
+        
+        return isset($resultSet) ? $resultSet : NULL;
     }
 } ?>

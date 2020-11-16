@@ -51,10 +51,10 @@
     }
 
     public function getDatosPostulantesPublicacion($id_publicacion){
-        $query = $this->db()->query("SELECT COUNT(*) AS cantidad, MIN(precio) as precio_minimo FROM vd_publicaciones_postulaciones WHERE id_publicacion=$id_publicacion");
+        $query = $this->db()->query("SELECT COUNT(*) AS cantidad, MIN(precio) as precio_minimo FROM vd_publicaciones_postulaciones WHERE id_publicacion=$id_publicacion AND estado != 2");
 
         if($row = $query->fetch_object())
-           $resultSet = (array)$row;
+         $resultSet = (array)$row;
 
         return isset($resultSet) ? $resultSet : NULL;
     }
@@ -76,11 +76,37 @@
                 JOIN vd_publicaciones pub ON pos.id_publicacion = pub.id
                 JOIN vd_usuarios usu ON pos.id_usuario = usu.id
                 JOIN vd_usuarios_vehiculos veh ON pos.id_vehiculo = veh.id
-            WHERE pub.id = ".$id_publicacion);
+            WHERE pub.id = ".$id_publicacion." AND pos.estado != 2 ORDER BY pos.precio ASC");
 
         while($row = $query->fetch_object())
            $resultSet[] = (array)$row;
         
         return isset($resultSet) ? $resultSet : NULL;
+    }
+
+    public function getPostulacionUsuarioPublicacion($id_usuario, $id_publicacion){
+        $query = $this->db()->query("SELECT * FROM vd_publicaciones_postulaciones WHERE id_usuario=$id_usuario AND id_publicacion = $id_publicacion AND estado != 2");
+
+        if($row = $query->fetch_object())
+           $resultSet = (array)$row;
+
+        return isset($resultSet) ? $resultSet : NULL;
+    }
+
+    public function cambiarEstado($id_postulacion, $estado){
+        $query= "UPDATE vd_publicaciones_postulaciones SET estado = '$estado' WHERE id = $id_postulacion";
+        return $this->db()->query($query);
+    }
+
+    public function modificacion($id_postulacion, $data){
+        $query = "UPDATE `vd_publicaciones_postulaciones` SET ";
+
+        foreach ($data as $key => $value)
+            $query .= $key." = '".$value."', ";
+        $query = substr($query, 0, -2);
+
+        $query .= " WHERE id = $id_postulacion";
+        // echo $query; exit();
+        return $this->db()->query($query);
     }
 } ?>

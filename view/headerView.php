@@ -14,7 +14,8 @@
 	<link rel="stylesheet" href="assets/css/font.css">
 	
 	<link rel="shortcut icon" href="assets/img/logo1.png">
-
+	<!-- <script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/jquery-3.5.1.js"></script> -->
 	<!-- <script src="assets/js/jquery-3.5.1.js"></script>
 	<script src="assets/js/bootstrap.bundle.js"></script>
 	<script src="assets/js/jquery.validate.js"></script>
@@ -22,29 +23,21 @@
 	
 	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> -->
 	<title>VeryDeli</title>
-</head>
-<body>
-	
-	<?php 
-	if (isset($_SESSION['alerta'])){
-		echo "<script> alert(\"".$_SESSION['alerta']."\"); </script>";
-		$_SESSION['alerta'] = NULL;
-	}
-	else
-		echo "<script> console.log('No hay alertas'); </script>";
 
-	if (isset($_SESSION['log'])){
-		echo "<script> console.log(\"".$_SESSION['log']."\"); </script>";
-		$_SESSION['log'] = NULL;
-	}
-	else
-		echo "<script> console.log('No hay mensajes'); </script>";
+	<!-- body{
+			height: 100%; 
+			width: 100%;
+			background-image: url(assets/img/bg6.jpg);
+			/*background-repeat: no-repeat;*/
+			background-size: 100% 100%;
+
+			color: #656565;
+			font-family: 'Montserrat', sans-serif;
+		} -->
+</head>
+<body style="background-image: url(assets/img/bg6.jpg); background-attachment: fixed; background-size: 100% 100%;">
 	
-	if (isset($_SESSION['nombre']))
-		echo "<script> console.log('Usuario ' + '".$_SESSION['nombre']." - ".$_SESSION['id']."'); </script>";
-	else
-		echo "<script> console.log('No hay sesion iniciada'); </script>";
-	?>
+	
 
 	
 

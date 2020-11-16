@@ -3,10 +3,10 @@
 	<div class="card-header e-card-header">
 		<h5>
 			<span class="badge badge-secondary" style="width: 120px; padding: 7px; background: #ff7c40;"><?php echo ucfirst($publicacion['tipo_vehiculo']); ?></span>
-			<?php echo "[".$dir_o['ciudad']." - ".$dir_d['ciudad']."] ".$publicacion['titulo']; ?>
 			<span>
 				<a class="e-card-caret float-right d-lg-none" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" href="#post-body-<?php echo $publicacion['id']; ?>"><i class="fas fa-angle-double-down"></i></a>
 			</span>
+			<?php echo "<span class='d-none d-md-inline'>[".$dir_o['ciudad']." - ".$dir_d['ciudad']."]</span><br class='d-inline d-sm-none'> ".$publicacion['titulo']; ?>
 		</h5>
 	</div>
 	<div class="collapse d-lg-block" id="post-body-<?php echo $publicacion['id']; ?>">
@@ -49,21 +49,22 @@
 					</div>
 				</div>
 				<!-- </div> -->
-				<?php if ($publicacion['id_usuario'] == $_SESSION['id']) { ?>
-				<!-- <div class="row" style="padding: 0px; margin: 0px;"> -->
 					<div class="col-12">
 						<div class="row">
-							ADMINISTRACION
+				<?php if ($publicacion['id_usuario'] == $_SESSION['id']) { ?>
+							(ADMINISTRACION)
+				<?php } ?>
+				<?php if ($publicacion['estado'] == 1) { ?>
+							PUBLICACION CERRADA
+				<?php } ?>
 						</div>
 					</div>
-				<!-- </div> -->
-				<?php } ?>
 			</div>
 			<div class="row"> <!-- Boton comentarios -->
 				<div class="col-12">
 					<?php if ($publicacion['id_usuario'] != $_SESSION['id']) { ?>
 					<button 
-						type="button" 
+						type="button" <?php if ($publicacion['estado'] != 0) { echo 'disabled'; } ?>
 						class="btn btn-sm float-right e-card-btn e-right-btn d-lg-none e-btn-postularse" 
 						data-toggle="modal" 
 						data-target="#modal-postularse"
@@ -75,7 +76,7 @@
 					</button>
 					<?php } else { ?>
 					<button 
-						type="button" 
+						type="button" <?php if ($publicacion['estado'] != 0) { echo 'disabled'; } ?>
 						class="btn btn-sm float-right e-card-btn e-right-btn d-lg-none e-btn-candidatos" 
 						data-toggle="modal" 
 						data-target="#modal-postulantes"
@@ -117,7 +118,7 @@
 						<?php if ($publicacion['id_usuario'] != $_SESSION['id']) { ?>
 						<div class="d-none d-lg-block col-lg-2">
 							<button 
-								type="button" 
+								type="button" <?php if ($publicacion['estado'] != 0) { echo 'disabled'; } ?>
 								class="btn e-card-btn e-btn-postularse" 
 								style="width: 100%; border-radius: 4px;" 
 								data-toggle="modal" 
@@ -132,7 +133,7 @@
 						<?php } else { ?>
 						<div class="d-none d-lg-block col-lg-2">
 							<button 
-								type="button" 
+								type="button" <?php if ($publicacion['estado'] != 0) { echo 'disabled'; } ?>
 								class="btn e-card-btn e-btn-candidatos" 
 								style="width: 100%; border-radius: 4px;" 
 								data-toggle="modal" 
@@ -148,6 +149,7 @@
 					</div>
 				</form>
 				
+				<div style="margin-top: 10px; width: 100%; height: 1px"></div>
 				<!-- LISTADO DE COMENTARIOS -->
 				<?php $cuenta = 0; foreach ($comentarios as $comentario) { ?>
 
@@ -161,7 +163,7 @@
 						<strong> <?php echo $comentario['usuario']; ?></strong>
 					</a> 
 					<?php if (isset($comentario['usuario_respuesta'])) { ?>
-					respondiendo a <a href="<?php echo $helper->url('usuario', 'perfil').'&id_usuario='.$comentario['id_usuario_respuesta']; ?>"><?php echo $comentario['usuario_respuesta']; ?></a>
+					resp. a <a href="<?php echo $helper->url('usuario', 'perfil').'&id_usuario='.$comentario['id_usuario_respuesta']; ?>"><?php echo $comentario['usuario_respuesta']; ?></a>
 					<?php } ?>
 					<!-- <span class="e-com-time">13:16 23/01/2019</span> -->
 					<span class="e-com-time"><?php echo date("H:i", strtotime($comentario['hora']))." ".date("d-m-y", strtotime($comentario['fecha'])); ?></span>
