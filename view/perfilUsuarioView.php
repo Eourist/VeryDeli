@@ -394,7 +394,7 @@
 								<i class="fas fa-trash-alt"></i>
 							</button>
 						<?php } ?>
-						<span style="float: right; margin-right: 10px;">$<?php echo $p['precio']; ?></span>
+						<span style="float: right; margin-right: 10px;"><?php echo ($p['estado_postulacion'] == 1 || $p['estado'] == 0) ? '$'.$p['precio'].(($p['estado'] != 0)?' <i class="fas fa-check"></i>':' <i class="fas fa-clock"></i>') : 'rechazada'; ?></span>
 						<h6 class="mb-0">
 							<?php if ($p['estado'] == 1) { ?>
 								<span class="badge e-card-badge badge-dark">Cerrada</span> 
@@ -542,7 +542,7 @@
 				<div class="e-card-historial">
 						<?php if ($t['envio']['confirmacion_responsable'] == 1 && $t['envio']['confirmacion_solicitante'] == 1) { ?>
 							<span class="float-right">entregado el <?php echo date('d-m-y', strtotime($t['envio']['fecha'])); ?></span>
-						<?php } else if ($usuario->id == $_SESSION['id'] || true) { ?>
+						<?php } else if ($usuario->id == $_SESSION['id']) { ?>
 							<?php if ($t['envio']['confirmacion_responsable'] == 1) { ?>
 								<span class="float-right">entregado</span>
 							<?php } else { ?>

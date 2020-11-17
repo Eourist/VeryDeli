@@ -20,12 +20,6 @@ if (!isset($_SESSION['id'])) {
 		<div class="collapse navbar-collapse e-nav-menu h-100" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto h-100 e-nav-menu" style="background-color: #313131;">
 				<li class="nav-item h-100">
-					<form class="form-inline my-2 my-lg-0 nav-link e-nav-form e-nav-link" id="nav-search-form">
-						<input class="form-control mr-2 mr-sm-2 e-input" style="display: none; width: 200px" type="text" placeholder="¿Qué está buscando?" aria-label="Buscar" id="nav-search-input">
-						<a href="#" class="nav-link" id="nav-search-btn" style=""><i class="fas fa-search float-right"></i></a>
-					</form> 
-				</li>
-				<li class="nav-item h-100">
 					<a class="nav-link e-nav-link" href="<?php echo $helper->url('publicacion', 'buscarPublicaciones'); ?>">Buscar</a>
 				</li>
 				<li class="nav-item h-100">
@@ -43,7 +37,11 @@ if (!isset($_SESSION['id'])) {
 			</ul>
 		</div>
 	</div>
+
 </nav>
+<!-- <div class="alertt" style="background-color: red; float: right; height: 140px; width: 300px; margin-top: 80px; margin-left: 10px; position: fixed; border-radius: 4px">
+	
+</div> -->
 <!-- <div class="e-alert text-center">
 	<p>Sesión iniciada correctamente</p>
 </div> -->

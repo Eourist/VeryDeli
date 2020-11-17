@@ -233,6 +233,17 @@
 	<script src="assets/js/jquery.validate.js"></script>
 	<script src="assets/js/verydeli.js"></script>
 	<script>
+		function pruebaAjax(data){
+			$.ajax({
+				url: '<?php echo $helper->url('usuario', 'pruebaAjax');?>',
+				type: 'POST',
+				data: {data: data},
+			})
+			.done(function(data) {
+				data = jQuery.parseJSON(data);
+				console.log(data);
+			});
+		}
 		// animate__backOutLeft animate__backInRight
 		jQuery(document).ready(function($) {
 			<?php if (isset($_SESSION['alerta'])) { echo "alert('".$_SESSION['alerta']."')"; } ?>

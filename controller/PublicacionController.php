@@ -13,6 +13,9 @@
 
 	public function inicio(){
 		session_start();
+		if (!isset($_SESSION['id']))
+			$this->redirect('publicacion', 'index');
+
 		$publicaciones = new PublicacionModel();
 		$publicaciones = $publicaciones->getAllActivas();
 
@@ -106,6 +109,9 @@
 
 	public function buscar(){
 		session_start();
+		if (!isset($_SESSION['id']))
+			$this->redirect('publicacion', 'index');
+
 		$publicaciones 		= new PublicacionModel();
 		$direccionModel 	= new DireccionModel();
 		$ciudadModel 		= new CiudadModel();
@@ -197,6 +203,9 @@
 
 	public function publicacion(){
 		session_start();
+		if (!isset($_SESSION['id']))
+			$this->redirect('publicacion', 'index');
+		
 		$publicacion = new PublicacionModel();
 		$publicacion = $publicacion->getById($_GET['id_publicacion']);
 
@@ -401,6 +410,8 @@
 
 	public function nuevaPublicacion(){
 		session_start();
+		if (!isset($_SESSION['id']))
+			$this->redirect('publicacion', 'index');
 
 		$usuarioModel = new UsuarioModel();
 		$datosUsuario = $usuarioModel->getDatosEnvios($_SESSION['id']);

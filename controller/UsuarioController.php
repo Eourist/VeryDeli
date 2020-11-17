@@ -14,13 +14,18 @@ class UsuarioController extends ControladorBase{
 
     public function perfil(){
         session_start();
+        if (!isset($_SESSION['id']))
+            $this->redirect('publicacion', 'index');
+        
         $usuarioModel = new UsuarioModel();
         $direccionModel = new DireccionModel();
         $provinciaModel = new ProvinciaModel();
         $ciudadModel = new CiudadModel();
+        $vehiculoModel = new VehiculoModel();
         //$envios = new EnvioModel();
 
         $usuario        = $usuarioModel->getById($_GET['id_usuario']);
+        $_SESSION['vehiculos'] = $vehiculoModel->getByAsArray('id_usuario', $_SESSION['id']);
         //$enviosTotales  = 10;//$envios->getBy('id_usuario', $usuario->id);
         //$solicitudes    = 2;//$envios->getSolicitudesUsuario($usuario->id);
         //$translados     = 3;//$envios->getTransladosUsuario($usuario->id);
@@ -34,6 +39,7 @@ class UsuarioController extends ControladorBase{
         $postulaciones  = (array)$usuarioModel->getPostulaciones($usuario->id);
         $solicitudes    = (array)$usuarioModel->getSolicitudes($usuario->id);
         $transportes    = (array)$usuarioModel->getTransportes($usuario->id);
+
         foreach ($publicaciones as $i => $value) {
             $dir_o = $direccionModel->getById($publicaciones[$i]['id_direccion_origen']);
 
@@ -155,6 +161,24 @@ class UsuarioController extends ControladorBase{
     	}
     }
 
+    public function buscarUsuario(){
+        $nombre = $_POST['fbu_nombre'];
+
+        $usuarioModel = new UsuarioModel();
+        $usuarios = $usuarioModel->buscarUsuario($nombre);
+
+        foreach ($usuarios as $key => $value) {
+            $usuarios[$key]['datos'] = $usuarioModel->getDatosEnvios($usuarios[$key]['id']);
+        }
+
+        $data['usuarios'] = $usuarios;
+
+        $this->view("header", "");
+        $this->view("navbar", "");
+        $this->view("buscarUsuario", $data);
+        $this->view("footer", "");
+    }
+
     public function cambiarAvatar(){
     	session_start();
     	$usuario = new UsuarioModel();
@@ -249,10 +273,50 @@ class UsuarioController extends ControladorBase{
     	}
     }
 
-    public function pruebaAjax(){
-    	$data = $_POST['data'];
+    public function verificarEmail(){
+        $usuarioModel = new UsuarioModel();
+        $data = $_POST['email'];
 
-		echo json_encode("Datos: ".$data);
+        $usuario = $usuarioModel->getBy('email', $data);
+
+        if ($usuario)
+            echo json_encode(true);
+        else
+            echo json_encode(false);
+    }
+
+    public function verificarEmailInv(){
+        $usuarioModel = new UsuarioModel();
+        $data = $_POST['email'];
+
+        $usuario = $usuarioModel->getBy('email', $data);
+
+        if ($usuario)
+            echo json_encode(false);
+        else
+            echo json_encode(true);
+    }
+
+    public function verificarDni(){
+        $usuarioModel = new UsuarioModel();
+        $data = $_POST['dni'];
+
+        $usuario = $usuarioModel->getBy('dni', $data);
+
+        if ($usuario)
+            echo json_encode(false);
+        else
+            echo json_encode(true);
+    }
+
+    public function pruebaAjax(){
+    	$data = $_POST['email'];
+
+        if ($data == 'aaa@a.a')
+		    echo json_encode(true);
+        else
+            echo json_encode(false);
+
     }
 
 		//Listar todos los Usuarios	

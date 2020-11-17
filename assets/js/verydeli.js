@@ -247,7 +247,19 @@ jQuery(document).ready(function($) {
 			rules: {
 				fl_email: {
 					email: true,
-					required: true
+					required: true,
+					"remote":
+					{
+						url: 'index.php?controller=usuario&action=verificarEmail',
+						type: "post",
+						data:
+						{
+							email: function()
+							{
+								return $('#form-inicio-sesion :input[name="fl_email"]').val();
+							}
+						}
+					}
 				},
 				fl_contraseña: {
 					required: true
@@ -256,7 +268,8 @@ jQuery(document).ready(function($) {
 			messages: {
 				fl_email: {
 					email: "E-mail inválido",
-					required: "Campo obligatorio"
+					required: "Campo obligatorio",
+					remote: "E-mail no registrado"
 				},
 				fl_contraseña: {
 					required: "Campo obligatorio"
@@ -264,7 +277,8 @@ jQuery(document).ready(function($) {
 			},
 			errorPlacement: function(error, element) {
 				error.insertAfter(element.parent());
-			}
+			},
+			onkeyup: false
 		});
 
 		$('#form-registro').validate({
@@ -280,14 +294,38 @@ jQuery(document).ready(function($) {
 				fs_email: {
 					email: true,
 					required: true,
-					maxlength: 30
+					maxlength: 30,
+					"remote":
+					{
+						url: 'index.php?controller=usuario&action=verificarEmailInv',
+						type: "post",
+						data:
+						{
+							email: function()
+							{
+								return $('#form-registro :input[name="fs_email"]').val();
+							}
+						}
+					}
 				},
 				fs_dni: {
 					digits: true,
 					number: true,
 					required: true,
 					minlength: 8,
-					maxlength: 8
+					maxlength: 8,
+					"remote":
+					{
+						url: 'index.php?controller=usuario&action=verificarDni',
+						type: "post",
+						data:
+						{
+							dni: function()
+							{
+								return $('#form-registro :input[name="fs_dni"]').val();
+							}
+						}
+					}
 				},
 				fs_contraseña: {
 					required: true,
@@ -306,14 +344,16 @@ jQuery(document).ready(function($) {
 				fs_email: {
 					email: "E-mail inválido",
 					required: "Campo obligatorio",
-					maxlength: "Máximo 30 caracteres"
+					maxlength: "Máximo 30 caracteres",
+					remote: "E-mail ya registrado"
 				},
 				fs_dni: {
 					digits: "Solo dígitos",
 					number: "Solo dígitos",
 					required: "Campo obligatorio",
 					minlength: "Mínimo 8 dígitos",
-					maxlength: "Máximo 8 dígitos"			
+					maxlength: "Máximo 8 dígitos",
+					remote: "DNI ya registrado"			
 				},
 				fs_contraseña: {
 					required: "Campo obligatorio",
@@ -405,7 +445,18 @@ jQuery(document).ready(function($) {
 			}
 		});
 
+		jQuery.validator.addMethod("mayorQueCero", function(value, element) {
+			return this.optional(element) || (parseFloat(value) > 0);
+		}, "Debe ser mayor a 0");
 
+
+		jQuery.validator.addMethod("fechaFutura", function(value, element) {
+			var today = new Date();
+			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+			console.log(value);
+			console.log(date);
+			return this.optional(element) || (value > date);
+		}, "La fecha no puede ser anterior o igual a la de hoy");
 
 		$("#form-publicaciones").validate({
 			rules: {
@@ -415,45 +466,29 @@ jQuery(document).ready(function($) {
 					maxlength: 100
 				},
 				fp_fecha_salida: {
-					required: true
+					required: true,
+					fechaFutura: true
 				},
 				fp_hora_salida: {
 					required: true
 				},
 				fp_medida_peso: {
 					required: true,
+					maxlength: 5,
+					mayorQueCero: true
+				},
+				fp_medida_alto: {
+					required: true,
 					maxlength: 5
 				},
-				// fp_medida_alto: {
-				// 	//required: true,
-				// 	//maxlength: 5
-				// 	required: {
-				// 		depends: function(){
-				// 			let a = $('#fp_medida_alto').val() != "" && $('#fp_medida_largo').val() != "" && $('#fp_medida_ancho').val() != "";
-				// 			console.log("required: " + a);
-				// 			return a;
-				// 		}
-				// 	},
-				// 	maxlength: {
-				// 		depends: function(){
-				// 			let a = $('#fp_medida_alto').val().length < 6 && $('#fp_medida_largo').val().length < 6 && $('#fp_medida_ancho').val().length < 6;
-				// 			console.log("maxlength: " + a);
-				// 			return a;
-				// 		}
-				// 	}
-				// },
-					fp_medida_alto: {
-						required: true,
-						maxlength: 5
-					},
-					fp_medida_largo: {
-						required: true,
-						maxlength: 5
-					},
-					fp_medida_ancho: {
-						required: true,
-						maxlength: 5
-					},
+				fp_medida_largo: {
+					required: true,
+					maxlength: 5
+				},
+				fp_medida_ancho: {
+					required: true,
+					maxlength: 5
+				},
 				fp_descripcion: {
 					maxlength: 300
 				},

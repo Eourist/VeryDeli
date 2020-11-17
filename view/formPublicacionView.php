@@ -1,7 +1,7 @@
 <div class="card e-card">
 	<div class="card-body e-card-body text-center" style="border-radius: 4px; padding: 10px; user-select: none">
 		<p class="mb-0">Los usuarios nuevos en VeryDeli o con mala reputación tienen un limite semanal de 3 publicaciones.</p>
-		<?php echo "Tu reputación actual es ".$datos['reputacion'].(($datos['reputacion'] == 'Buena' || $datos['reputacion'] == 'Excelente') ? ", por lo que podes crear tantas publicaciones como quieras." : ", y todavía podes crear ".$datos['publicaciones_disponibles']." publicaciones más esta semana."); ?>
+		<?php echo "Tu reputación actual es ".$datos['reputacion'].(($datos['reputacion'] == 'Buena' || $datos['reputacion'] == 'Excelente') ? ", por lo que podes crear tantas publicaciones como quieras." : ", podes crear ".$datos['publicaciones_disponibles']." publicacion/es más esta semana."); ?>
 	</div>
 </div>
 
@@ -34,7 +34,7 @@
 								<div class="input-group-prepend">
 									<div class="input-group-text e-input-text">Fecha</div>
 								</div>
-								<input class="form-control e-input" id="fp_fecha_salida" name="fp_fecha_salida"  type="date" value="" placeholder="Fecha de salida" >
+								<input class="form-control e-input" id="fp_fecha_salida" name="fp_fecha_salida"  type="date" value="<?php echo date("Y-m-d", time() + 86400); ?>" placeholder="Fecha de salida" >
 							</div>
 						</div>
 					</div>
@@ -336,10 +336,10 @@
 			
 			<!-- <div class="e-form-panel"> -->
 				<div class="form-row" style="/*padding-right: 10px; margin-top: 15px; margin-bottom: 10px;*/">
-					<div class="col-10">
+					<div class="col-8">
 						<?php if ($datos['publicaciones_disponibles'] <= 0) { echo 'Alcanzaste el límite de publicaciones semanales. No podrás publicar hasta la próxima semana.'; } ?>
 					</div>
-					<div class="col-2">
+					<div class="col-4">
 						<button type="submit" class="btn e-card-btn float-right" <?php if ($datos['publicaciones_disponibles'] <= 0) { echo 'disabled'; } ?>><i class="fas fa-check-circle"></i> Confirmar</button>
 					</div>
 				</div>

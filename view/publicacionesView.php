@@ -47,8 +47,7 @@
 						</div>
 					</div>
 					<div class="col-12 text-center pl-0 pr-0" style="margin-top: -15px; margin-bottom: 5px;">
-						<?php if ($datos['postulacion_activa'] && $datos['promedio'] < 4) { ?>
-							<?php print_r($datos) ?>
+						<?php if ($datos['postulacion_activa'] && ($datos['reputacion'] != 'Buena' && $datos['reputacion'] != 'Excelente')) { ?>
 						<small class="text-center w-100 pb-0">No puedes postularte a mas de una publicacion a la vez mientras que tu reputacion de usuario sea inferior a "Buena". Completa envíos para mejorar tu reputacion de VeryDeli, o cancela tu postulación activa desde tu perfil.</small>
 						<?php } else { ?>
 						<small class="text-center w-100 pb-0">Una vez realizada la postulación no podrás retirarla. Si un usuario no cumple con los enviós a los que se postula, su reputación VeryDeli se verá afectada.</small>
@@ -57,7 +56,7 @@
 					<div class="col-12 d-flex justify-content-center" style="padding: 0px;">
 						<input type="hidden" id="fp_id_publicacion" name="fp_id_publicacion" value="">
 						<button type="button" class="btn btn-sm e-card-btn e-left-btn" data-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
-						<button type="submit" class="btn btn-sm e-card-btn e-right-btn" <?php if($datos['postulacion_activa'] && $datos['promedio'] < 4) { echo 'disabled'; } ?>><i class="fas fa-handshake"></i> Postularse</button>
+						<button type="submit" class="btn btn-sm e-card-btn e-right-btn" <?php if($datos['postulacion_activa'] && ($datos['reputacion'] != 'Buena' && $datos['reputacion'] != 'Excelente')) { echo 'disabled'; } ?>><i class="fas fa-handshake"></i> Postularse</button>
 					</div>
 					<div class="col-12" style="margin-bottom: 5px;">
 						<small class="w-100 text-center">
@@ -80,7 +79,7 @@
 				<h5 class="modal-title w-100 text-center">Ver candidatos</h5>
 			</div>
 			<div class="modal-body" style="max-height: 450px; overflow-y: auto">
-				<p class="text-center" id="e-mpo-info">
+				<p class="text-center mb-0" id="e-mpo-info">
 
 				</p>
 				<div id="e-mpo-listado">

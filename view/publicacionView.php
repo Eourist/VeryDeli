@@ -6,20 +6,20 @@
 			<span>
 				<a class="e-card-caret float-right d-lg-none" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" href="#post-body-<?php echo $publicacion['id']; ?>"><i class="fas fa-angle-double-down"></i></a>
 			</span>
-			<?php echo "<span class='d-none d-md-inline'>[".$dir_o['ciudad']." - ".$dir_d['ciudad']."]</span><br class='d-inline d-sm-none'> ".$publicacion['titulo']; ?>
+			<?php echo "<span class='d-none d-md-inline'>[".$dir_o['provincia']." - ".$dir_d['provincia']."]</span><br class='d-inline d-sm-none'> ".$publicacion['titulo']; ?>
 		</h5>
 	</div>
 	<div class="collapse d-lg-block" id="post-body-<?php echo $publicacion['id']; ?>">
-		<div class="card-body e-card-body" style="padding: 10px;/*background-image: url(assets/img/bg5.jpg);background-repeat: no-repeat;background-size: 100%;*/">
+		<div class="card-body e-card-body" style="padding: 10px;/*background-image: url(assets/img/bg4.jpg);background-repeat: no-repeat;background-size: 100%;*/">
 			<div class="row" style="padding: 0px; margin: 0px;"> <!-- Informacion de la publicacion -->
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-8">
 					<!-- <h5>Envio:</h5> -->
 					<div class="row">
 						<!-- <p><span class="badge badge-dark e-card-badge">Lugar origen</span> <span>San Luis > San Luis (Capital) > Av. Ejemplo 342</span></p> -->
-						<p><span class="badge badge-dark e-card-badge">Lugar origen</span> <span><?php echo $dir_o['provincia']." > ".$dir_o['ciudad']." > ".$dir_o['calle']." ".$dir_o['numero']; ?></span></p>
+						<p><span class="badge badge-dark e-card-badge" data-toggle="tooltip" title="<?php echo $dir_o['descripcion']; ?>">Lugar origen</span> <span><?php echo $dir_o['provincia']." > ".$dir_o['ciudad']." > ".$dir_o['calle']." ".$dir_o['numero']; ?></span></p>
 					</div>
 					<div class="row">
-						<p><span class="badge badge-dark e-card-badge">Lugar destino</span> <span><?php echo $dir_d['provincia']." > ".$dir_d['ciudad']." > ".$dir_d['calle']." ".$dir_d['numero']; ?></span></p>
+						<p><span class="badge badge-dark e-card-badge" data-toggle="tooltip" title="<?php echo $dir_d['descripcion']; ?>">Lugar destino</span> <span><?php echo $dir_d['provincia']." > ".$dir_d['ciudad']." > ".$dir_d['calle']." ".$dir_d['numero']; ?></span></p>
 					</div>
 				</div>
 				<div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-2">
@@ -34,16 +34,24 @@
 				<div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-2">
 					<!-- <h5>Paquete:</h5> -->
 					<div class="row">
-						<p><span class="badge badge-dark e-card-badge" style="width: 60px;">Peso</span> <span><?php echo $publicacion['peso']; ?></span></p>
+						<p><span class="badge badge-dark e-card-badge" style="width: 60px;">Peso</span> <span><?php echo $publicacion['peso'].' Kg'; ?></span></p>
 					</div>
 					<div class="row">
-						<p><span class="badge badge-dark e-card-badge" style="width: 60px;">Medidas</span> <span><?php echo $publicacion['medida_alto']."x".$publicacion['medida_largo']."x".$publicacion['medida_ancho']; ?></span></p>
+						<p><span class="badge badge-dark e-card-badge" style="width: 60px;">Medidas</span> <span><?php echo $publicacion['medida_alto']."x".$publicacion['medida_largo']."x".$publicacion['medida_ancho'].' cm'; ?></span></p>
 						<!-- <p><span class="badge badge-dark e-card-badge" style="width: 60px;">Medidas</span> <span>50x50x180 cm</span></p> -->
 					</div>
 				</div>
 				<div class="e-divider" style="margin-top: -5px"></div>
 				<!-- <div class="row" style="padding: 0px; margin: 0px;"> -->
 				<div class="col-12">
+					<div class="row">
+						<p style="text-align: justify;"><span class="badge badge-dark e-card-badge">Autor</span>
+							<a href="<?php echo $helper->url('usuario', 'perfil').'&id_usuario='.$usuario['id']; ?>" class="e-com-userlink">
+								<img class="e-avatar" src="assets/img/avatares/<?php echo $usuario['avatar']; ?>.png" alt="User Avatar" style="width: 25px; height: 25px; padding-bottom: 4px">
+								<strong> <?php echo $usuario['nombre']; ?></strong>
+							</a> 
+						</p>
+					</div>
 					<div class="row">
 						<p style="text-align: justify;"><span class="badge badge-dark e-card-badge">Descripcion</span> <span><?php echo $publicacion['descripcion']; ?></span></p>
 					</div>
@@ -52,10 +60,10 @@
 					<div class="col-12">
 						<div class="row">
 				<?php if ($publicacion['id_usuario'] == $_SESSION['id']) { ?>
-							(ADMINISTRACION)
+							<strong>(AUTOR) </strong>
 				<?php } ?>
 				<?php if ($publicacion['estado'] == 1) { ?>
-							PUBLICACION CERRADA
+							<strong> PUBLICACION CERRADA</strong>
 				<?php } ?>
 						</div>
 					</div>
@@ -149,7 +157,7 @@
 					</div>
 				</form>
 				
-				<div style="margin-top: 10px; width: 100%; height: 1px"></div>
+				<div style="width: 100%; height: 1px"></div>
 				<!-- LISTADO DE COMENTARIOS -->
 				<?php $cuenta = 0; foreach ($comentarios as $comentario) { ?>
 
@@ -162,6 +170,7 @@
 						<img class="e-avatar" src="assets/img/avatares/<?php echo $comentario['usuario_avatar']; ?>.png" alt="User Avatar" style="width: 25px; height: 25px; padding-bottom: 4px">
 						<strong> <?php echo $comentario['usuario']; ?></strong>
 					</a> 
+					<?php if ($comentario['id_usuario'] == $publicacion['id_usuario']) echo "(autor)"; ?>
 					<?php if (isset($comentario['usuario_respuesta'])) { ?>
 					resp. a <a href="<?php echo $helper->url('usuario', 'perfil').'&id_usuario='.$comentario['id_usuario_respuesta']; ?>"><?php echo $comentario['usuario_respuesta']; ?></a>
 					<?php } ?>
@@ -197,9 +206,11 @@
 				</div>
 
 				<?php $cuenta++; } ?>
+				<?php if ($comentarios && sizeof($comentarios) > 1) { ?>
 				<button class="btn e-com-mostrar-mas" data-estado="min" data-id-publicacion="<?php echo $publicacion['id']; ?>">
-					<span><i class="fas fa-angle-down"></i> Cargar mas comentarios</span>
+					<span><i class="fas fa-angle-down"></i> Cargar mas comentarios (<?php echo sizeof($comentarios)-1; ?>)</span>
 				</button>
+				<?php } ?>
 			</div> 
 			<!-- FIN COMENTARIOS -->
 		</div>

@@ -129,6 +129,16 @@ class UsuarioModel extends EntidadBase{
         return 0;
     }
 
+    public function buscarUsuario($nombre){
+        $query = "SELECT u.* FROM vd_usuarios u WHERE u.nombre LIKE '%nombre%";
+        $query = $this->db()->query($query);
+
+        if($row = $query->fetch_object())
+            $resultSet = (array)$row;
+
+        return isset($resultSet) ? $resultSet : NULL;
+    }
+
     public function getDatosEnvios($id_usuario){
         $query = "SELECT 
                     ROUND(((solicitante.total_puntos+responsable.total_puntos) / (solicitante.cantidad+responsable.cantidad)),2) as promedio, 
@@ -150,12 +160,14 @@ class UsuarioModel extends EntidadBase{
                         FROM vd_envios envios
                             JOIN vd_publicaciones_postulaciones postulaciones ON envios.id_postulacion = postulaciones.id
                         WHERE postulaciones.id_usuario = $id_usuario
+                            AND envios.confirmacion_solicitante = 1
                     ) as responsable,
                     (SELECT IFNULL(COUNT(envios.calificacion_responsable),0) as cantidad, IFNULL(SUM(envios.calificacion_responsable),0) as total_puntos
                         FROM vd_envios envios
                             JOIN vd_publicaciones_postulaciones postulaciones ON envios.id_postulacion = postulaciones.id
                             JOIN vd_publicaciones publicaciones ON postulaciones.id_publicacion = publicaciones.id
                         WHERE publicaciones.id_usuario = $id_usuario
+                            AND envios.confirmacion_responsable = 1
                     ) as solicitante";
 
         $query = $this->db()->query($query);
@@ -178,7 +190,7 @@ class UsuarioModel extends EntidadBase{
     }
 
     public function getPostulaciones($id_usuario){
-        $query=$this->db()->query("SELECT vd_publicaciones.*, vd_publicaciones_postulaciones.id as id_postulacion, vd_publicaciones_postulaciones.precio as precio  FROM vd_publicaciones JOIN vd_publicaciones_postulaciones ON vd_publicaciones_postulaciones.id_publicacion = vd_publicaciones.id WHERE vd_publicaciones_postulaciones.id_usuario = $id_usuario AND vd_publicaciones_postulaciones.estado != 2 ORDER BY vd_publicaciones_postulaciones.id DESC");
+        $query=$this->db()->query("SELECT vd_publicaciones.*, vd_publicaciones_postulaciones.id as id_postulacion, vd_publicaciones_postulaciones.precio as precio, vd_publicaciones_postulaciones.estado as estado_postulacion  FROM vd_publicaciones JOIN vd_publicaciones_postulaciones ON vd_publicaciones_postulaciones.id_publicacion = vd_publicaciones.id WHERE vd_publicaciones_postulaciones.id_usuario = $id_usuario AND vd_publicaciones_postulaciones.estado != 2 ORDER BY vd_publicaciones_postulaciones.id DESC");
 
         while($row = $query->fetch_object())
             $resultSet[] = (array)$row;
@@ -255,7 +267,7 @@ class UsuarioModel extends EntidadBase{
         // Devuelve el numero de publicaciones que le quedan al usuario
         // Primero ver si la reputaicion no es "Buena" o "Excelente"
         // Despues cuantas publicaciones existen creadas en la ultima semana
-        $query = "  SELECT IF('$reputacion' = 'Buena', 99, IF('$reputacion' = 'Excelente', 99, 3-COUNT(pub.id))) as nro
+        $query = "  SELECT IF('$reputacion' = 'Buena', 99, IF('$reputacion' = 'Excelente', 99, IF(3-COUNT(pub.id) < 0, 0, 3-COUNT(pub.id)))) as nro
                     FROM vd_publicaciones pub
                         JOIN vd_usuarios usu ON pub.id_usuario = usu.id
                     WHERE usu.id = $id_usuario AND pub.fecha > CURRENT_DATE-7 AND pub.estado != 2";
