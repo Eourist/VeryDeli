@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-11-2020 a las 18:03:30
+-- Tiempo de generación: 19-11-2020 a las 21:01:03
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.5
 
@@ -468,6 +468,17 @@ ALTER TABLE `vd_publicaciones_postulaciones`
 --
 ALTER TABLE `vd_usuarios_vehiculos`
   ADD CONSTRAINT `vd_usuarios_vehiculos_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `vd_usuarios` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+DELIMITER $$
+--
+-- Eventos
+--
+CREATE DEFINER=`root`@`localhost` EVENT `cerrar_publicaciones_vencidas` ON SCHEDULE EVERY 1 DAY STARTS '2020-11-20 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE vd_publicaciones 
+SET estado = 1 
+WHERE fecha_salida <= CURDATE() 
+AND estado = 0$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

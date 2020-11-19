@@ -69,7 +69,7 @@
 		<div class="e-central-panel animate__animated" id="main-menu">
 			<div class="card e-card" style="height: 100%;">
 				<div class="card-header e-card-header text-center" style="border-radius: 8px 8px 0px 0px">
-					<h3>Transportes VeryDeli<a href="<?php echo $helper->url('publicacion', 'inicio'); ?>">™</a></h3>
+					<h3>Transportes VeryDeli™</h3>
 				</div>
 				<div class="card-body e-card-body" style="padding: 10px; border-radius: 8px;">
 					<h5 class="text-center">¿Qué es VeryDeli?</h5>

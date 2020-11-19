@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-11-2020 a las 20:56:37
+-- Tiempo de generación: 19-11-2020 a las 20:59:48
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.5
 
@@ -271,10 +271,10 @@ CREATE TABLE `vd_publicaciones` (
 --
 
 INSERT INTO `vd_publicaciones` (`id`, `id_usuario`, `id_direccion_origen`, `id_direccion_destino`, `tipo_vehiculo`, `titulo`, `fecha_salida`, `hora_salida`, `peso`, `medida_alto`, `medida_largo`, `medida_ancho`, `descripcion`, `fecha`, `estado`) VALUES
-(1, 1, 1, 2, 'auto', 'Pedido ejemplo de MANUEL 1 (cerrada por vencimiento)', '2020-11-18', '20:00:00', 15, 20, 30, 20, 'Caja de tamaño medio, bastante pesada. Hace falta un auto con baúl para llevarla. Es frágil, si la caja llega con algún golpe doy mala calificación.', '2020-11-07', 0),
+(1, 1, 1, 2, 'auto', 'Pedido ejemplo de MANUEL 1 (cerrada por vencimiento)', '2020-11-18', '20:00:00', 15, 20, 30, 20, 'Caja de tamaño medio, bastante pesada. Hace falta un auto con baúl para llevarla. Es frágil, si la caja llega con algún golpe doy mala calificación.', '2020-11-07', 1),
 (2, 1, 3, 4, 'moto', 'Pedido ejemplo de MANUEL 2', '2020-11-25', '16:00:00', 1, 15, 15, 0, 'Papeles. No pesan nada ni ocupan nada. Pueden llevarse en moto, lo único importante es que no lleguen arrugados.', '2020-11-07', 1),
 (3, 1, 5, 6, 'auto', 'Pedido ejemplo de MANUEL 3', '2020-11-20', '17:00:00', 10, 20, 30, 20, 'Caja de tamaño medio. Necesito que el envío sea rápido, si se sale a las 17 tiene que llegar antes de las 17:30.', '2020-11-07', 1),
-(4, 2, 7, 8, 'auto', 'Pedido ejemplo de DOLORES 1', '2020-11-18', '18:40:00', 20, 15, 20, 30, '', '2020-11-17', 0),
+(4, 2, 7, 8, 'auto', 'Pedido ejemplo de DOLORES 1', '2020-11-18', '18:40:00', 20, 15, 20, 30, '', '2020-11-17', 1),
 (5, 2, 9, 10, 'camioneta', 'Pedido ejemplo de DOLORES 2', '2020-11-23', '16:40:00', 110, 130, 90, 90, 'Caja de 110 Kg muy pesada y bastante grande. Hace falta una camioneta con mucho espacio!', '2020-11-17', 0),
 (6, 2, 11, 12, 'auto', 'Pedido ejemplo de DOLORES 3', '2020-11-26', '15:00:00', 10, 15, 15, 15, 'Caja pequeña de 10kg, puede llevarse en auto sin necesidad de baúl.', '2020-11-17', 1),
 (7, 5, 13, 14, 'auto', 'Pedido ejemplo de DAVID 1', '2020-11-18', '18:50:00', 20, 20, 20, 20, '', '2020-11-17', 1),
@@ -284,7 +284,7 @@ INSERT INTO `vd_publicaciones` (`id`, `id_usuario`, `id_direccion_origen`, `id_d
 (11, 1, 21, 22, 'auto', 'Pedido ejemplo de MANUEL 5', '2020-11-22', '17:00:00', 15, 15, 15, 15, '', '2020-11-17', 0),
 (12, 1, 23, 24, 'auto', 'Pedido ejemplo de MANUEL 6', '2020-11-30', '14:00:00', 90, 90, 90, 90, 'Viaje largo', '2020-11-17', 0),
 (13, 4, 25, 26, 'auto', 'Pedido ejemplo de MARIA 1', '2020-11-18', '18:00:00', 50, 10, 10, 10, '', '2020-11-17', 1),
-(14, 6, 27, 28, 'auto', 'Pedido ejemplo de TERESA 1', '2020-11-19', '17:00:00', 25, 25, 25, 25, '', '2020-11-17', 0),
+(14, 6, 27, 28, 'auto', 'Pedido ejemplo de TERESA 1', '2020-11-19', '17:00:00', 25, 25, 25, 25, '', '2020-11-17', 1),
 (15, 6, 29, 30, 'auto', 'Pedido ejemplo de TERESA 2', '2020-11-29', '19:14:00', 90, 80, 80, 20, '', '2020-11-17', 0);
 
 -- --------------------------------------------------------
@@ -602,10 +602,10 @@ DELIMITER $$
 --
 -- Eventos
 --
-CREATE DEFINER=`root`@`localhost` EVENT `cerrar_publicaciones_vencidas` ON SCHEDULE EVERY 1 DAY STARTS '2020-11-18 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE vd_publicaciones 
- SET estado = 1 
-WHERE fecha_salida < CURDATE() 
- AND estado = 0$$
+CREATE DEFINER=`root`@`localhost` EVENT `cerrar_publicaciones_vencidas` ON SCHEDULE EVERY 1 DAY STARTS '2020-11-20 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE vd_publicaciones 
+SET estado = 1 
+WHERE fecha_salida <= CURDATE() 
+AND estado = 0$$
 
 DELIMITER ;
 COMMIT;
