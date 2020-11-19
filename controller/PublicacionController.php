@@ -205,83 +205,86 @@
 		session_start();
 		if (!isset($_SESSION['id']))
 			$this->redirect('publicacion', 'index');
-		
+
 		$publicacion = new PublicacionModel();
-		$publicacion = $publicacion->getById($_GET['id_publicacion']);
+		if ($publicacion = $publicacion->getById($_GET['id_publicacion'])){
+			$direccionModel 	= new DireccionModel();
+			$ciudadModel 		= new CiudadModel();
+			$provinciaModel 	= new ProvinciaModel();
+			$comentarioModel 	= new ComentarioModel();
 
-		$direccionModel 	= new DireccionModel();
-		$ciudadModel 		= new CiudadModel();
-		$provinciaModel 	= new ProvinciaModel();
-		$comentarioModel 	= new ComentarioModel();
+			$usuarioModel 	= new UsuarioModel();
+			$vehiculoModel 	= new VehiculoModel();
 
-		$usuarioModel 	= new UsuarioModel();
-		$vehiculoModel 	= new VehiculoModel();
+			$postulacionModel = new PostulacionModel();
 
-		$postulacionModel = new PostulacionModel();
+			$datosUsuario = $usuarioModel->getDatosEnvios($_SESSION['id']);
+			$datosUsuario['postulacion_activa'] = $usuarioModel->getPostulacionActiva($_SESSION['id'])['id'];
 
-		$datosUsuario = $usuarioModel->getDatosEnvios($_SESSION['id']);
-		$datosUsuario['postulacion_activa'] = $usuarioModel->getPostulacionActiva($_SESSION['id'])['id'];
+			$_SESSION['vehiculos'] = $vehiculoModel->getByAsArray('id_usuario', $_SESSION['id']);
+			// $data['vehiculos'] = $vehiculoModel->getByAsArray('id_usuario', $_SESSION['id']);
+			//echo '<pre>';print_r($data); exit();
 
-		$_SESSION['vehiculos'] = $vehiculoModel->getByAsArray('id_usuario', $_SESSION['id']);
-		// $data['vehiculos'] = $vehiculoModel->getByAsArray('id_usuario', $_SESSION['id']);
-		//echo '<pre>';print_r($data); exit();
+			$this->view("header", "");
+			$this->view("navbar", "");
+			$this->view("publicaciones", $datosUsuario);
+			$dir_o = $direccionModel->getById($publicacion->id_direccion_origen);
+			$dir_o = array(
+				'calle' 		=> $dir_o->calle,
+				'numero'	 	=> $dir_o->numero,
+				'piso' 			=> $dir_o->piso,
+				'depto' 		=> $dir_o->depto,
+				'descripcion' 	=> $dir_o->descripcion, 
+				'id_provincia' 	=> $dir_o->id_provincia,
+				'id_ciudad' 	=> $dir_o->id_ciudad,
+				'provincia' 	=> $provinciaModel->getById($dir_o->id_provincia)->nombre,
+				'ciudad' 		=> $ciudadModel->getById($dir_o->id_ciudad)->nombre
+			);
 
-		$this->view("header", "");
-		$this->view("navbar", "");
-		$this->view("publicaciones", $datosUsuario);
-		$dir_o = $direccionModel->getById($publicacion->id_direccion_origen);
-		$dir_o = array(
-			'calle' 		=> $dir_o->calle,
-			'numero'	 	=> $dir_o->numero,
-			'piso' 			=> $dir_o->piso,
-			'depto' 		=> $dir_o->depto,
-			'descripcion' 	=> $dir_o->descripcion, 
-			'id_provincia' 	=> $dir_o->id_provincia,
-			'id_ciudad' 	=> $dir_o->id_ciudad,
-			'provincia' 	=> $provinciaModel->getById($dir_o->id_provincia)->nombre,
-			'ciudad' 		=> $ciudadModel->getById($dir_o->id_ciudad)->nombre
-		);
+			$dir_d = $direccionModel->getById($publicacion->id_direccion_destino);
+			$dir_d = array(
+				'calle' 		=> $dir_d->calle,
+				'numero' 		=> $dir_d->numero,
+				'piso' 			=> $dir_d->piso,
+				'depto' 		=> $dir_d->depto,
+				'descripcion' 	=> $dir_d->descripcion, 
+				'id_provincia' 	=> $dir_d->id_provincia,
+				'id_ciudad' 	=> $dir_d->id_ciudad,
+				'provincia' 	=> $provinciaModel->getById($dir_d->id_provincia)->nombre,
+				'ciudad' 		=> $ciudadModel->getById($dir_d->id_ciudad)->nombre
+			);
 
-		$dir_d = $direccionModel->getById($publicacion->id_direccion_destino);
-		$dir_d = array(
-			'calle' 		=> $dir_d->calle,
-			'numero' 		=> $dir_d->numero,
-			'piso' 			=> $dir_d->piso,
-			'depto' 		=> $dir_d->depto,
-			'descripcion' 	=> $dir_d->descripcion, 
-			'id_provincia' 	=> $dir_d->id_provincia,
-			'id_ciudad' 	=> $dir_d->id_ciudad,
-			'provincia' 	=> $provinciaModel->getById($dir_d->id_provincia)->nombre,
-			'ciudad' 		=> $ciudadModel->getById($dir_d->id_ciudad)->nombre
-		);
+					// $comentarios = (array)$comentarioModel->getByAsArray('id_publicacion', $publicacion->id);
+			$comentarios = (array)$comentarioModel->getComentariosPublicacion($publicacion->id);
 
-				// $comentarios = (array)$comentarioModel->getByAsArray('id_publicacion', $publicacion->id);
-		$comentarios = (array)$comentarioModel->getComentariosPublicacion($publicacion->id);
+					// echo '<pre>'; print_r($comentarios); exit();
 
-				// echo '<pre>'; print_r($comentarios); exit();
+			for ($i = 0; $i < count($comentarios); $i++){
+				$usuario = $usuarioModel->getById($comentarios[$i]['id_usuario']);
+				$comentarios[$i]['usuario'] 		= $usuario->nombre;
+				$comentarios[$i]['usuario_avatar'] 	= $usuario->avatar;
+				if (!empty($comentarios[$i]['id_usuario_respuesta']))
+					$comentarios[$i]['usuario_respuesta'] = $usuarioModel->getById($comentarios[$i]['id_usuario_respuesta'])->nombre; 
+			}
+					//echo '<pre>'; print_r($comentarios); exit();
 
-		for ($i = 0; $i < count($comentarios); $i++){
-			$usuario = $usuarioModel->getById($comentarios[$i]['id_usuario']);
-			$comentarios[$i]['usuario'] 		= $usuario->nombre;
-			$comentarios[$i]['usuario_avatar'] 	= $usuario->avatar;
-			if (!empty($comentarios[$i]['id_usuario_respuesta']))
-				$comentarios[$i]['usuario_respuesta'] = $usuarioModel->getById($comentarios[$i]['id_usuario_respuesta'])->nombre; 
+					// $postulantes = $postulacionModel->getByAsArray('id_publicacion', $publicacion->id);
+
+			$data = array(
+				'publicacion' 		=> (array)$publicacion,
+				'dir_o' 			=> $dir_o,
+				'dir_d' 			=> $dir_d,
+				'usuario' 			=> (array)($usuarioModel->getById($publicacion->id_usuario)),
+				'comentarios' 		=> $comentarios
+						// 'postulantes'		=> $postulantes
+			);
+
+			$this->view("publicacion", $data);
+			$this->view("footer", "");
+
+		} else {
+			$this->redirect('publicacion', 'inicio');
 		}
-				//echo '<pre>'; print_r($comentarios); exit();
-
-				// $postulantes = $postulacionModel->getByAsArray('id_publicacion', $publicacion->id);
-
-		$data = array(
-			'publicacion' 		=> (array)$publicacion,
-			'dir_o' 			=> $dir_o,
-			'dir_d' 			=> $dir_d,
-			'usuario' 			=> (array)($usuarioModel->getById($publicacion->id_usuario)),
-			'comentarios' 		=> $comentarios
-					// 'postulantes'		=> $postulantes
-		);
-
-		$this->view("publicacion", $data);
-		$this->view("footer", "");
 	}
 
 	public function confirmarEnvio(){

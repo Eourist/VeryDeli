@@ -25,6 +25,9 @@ class UsuarioController extends ControladorBase{
         //$envios = new EnvioModel();
 
         $usuario        = $usuarioModel->getById($_GET['id_usuario']);
+
+        if ($usuarioModel->getById($_GET['id_usuario'])){
+
         $_SESSION['vehiculos'] = $vehiculoModel->getByAsArray('id_usuario', $_SESSION['id']);
         //$enviosTotales  = 10;//$envios->getBy('id_usuario', $usuario->id);
         //$solicitudes    = 2;//$envios->getSolicitudesUsuario($usuario->id);
@@ -79,6 +82,10 @@ class UsuarioController extends ControladorBase{
         //   					'contraseña' => 1 );
 		// echo "<pre>";
 		// print_r($u->insert($data));
+
+        } else {
+            $this->redirect('publicacion', 'inicio');
+        }
     }
 
     public function cerrarSesion(){
